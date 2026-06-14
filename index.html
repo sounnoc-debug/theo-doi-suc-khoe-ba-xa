@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ Thống Theo Dõi Người Liên Kết v16.0 - Tích Hợp Gmail</title>
+    <title>Hệ Thông Theo Dõi Tình Trạng Bà Xã</title>
     <style>
         :root {
             --card-bg: rgba(255, 255, 255, 0.8);
@@ -50,6 +50,11 @@
         .app-container {
             width: 100%; max-width: 540px;
             position: relative; z-index: 2; margin-bottom: 30px;
+        }
+
+        /* Khi ở trang Ăn Uống, mở rộng container rộng hơn để chứa 2 bảng song song đẹp mắt */
+        .app-container.wide-mode {
+            max-width: 900px;
         }
 
         .page {
@@ -149,7 +154,32 @@
         .tab-btn { background: rgba(0,0,0,0.04); border: none; padding: 10px 4px; font-size: 11px; font-weight: 700; border-radius: 10px; cursor: pointer; color: #475569; }
         .tab-btn.active { background: var(--primary); color: white; }
         
+        /* Cấu trúc Bảng Song Hành Món Ăn - Món Nước */
+        .dual-table-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        @media (max-width: 768px) {
+            .dual-table-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .table-column-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .table-column-title {
+            font-size: 12px; font-weight: 800; color: #1e293b;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px; border-radius: 10px 10px 0 0;
+            border: 1px solid var(--card-border);
+            border-bottom: none; text-align: center; letter-spacing: 0.5px;
+        }
+
         .scroll-box { background: rgba(255,255,255,0.6); border: 1px solid var(--card-border); border-radius: var(--radius-md); padding: 12px; max-height: 320px; overflow-y: auto; }
+        .scroll-box.rounded-top-flat { border-top-left-radius: 0; border-top-right-radius: 0; }
 
         .item-list { display: flex; flex-direction: column; gap: 8px; }
         .row-item { 
@@ -226,19 +256,19 @@
     </div>
 </div>
 
-<div class="app-container">
+<div id="main-app-container" class="app-container">
 
     <div id="page-home" class="page active">
         <div class="brand-header">
             <h1>HỆ THỐNG LIÊN KẾT</h1>
-            <div class="subtitle">Aura Mobile Design v16.0</div>
+            <div class="subtitle">Aura Mobile Design v17.0</div>
         </div>
         
         <div class="menu-grid">
             <div class="menu-item m-eat" onclick="navigateTo('page-eat')">
                 <div class="icon-wrapper">🍽️</div>
                 <span class="title">Ăn Uống</span>
-                <span class="desc">Thực đơn đầy đủ 105 món 3 miền chuẩn xác.</span>
+                <span class="desc">105 món ăn & 105 món nước song hành phân bổ khoa học.</span>
             </div>
             <div class="menu-item m-mood" onclick="navigateTo('page-mood')">
                 <div class="icon-wrapper">🧠</div>
@@ -255,7 +285,7 @@
                 <span class="title">Hẹn Hò</span>
                 <span class="desc">Danh sách 100 điều mong ước chung đôi ngọt ngào.</span>
             </div>
-            <div class="menu-item m-money" onclick="navigateTo('page-money')">
+            <div class="menu-item m-money" onclick="toggleWideModeContainer(false); navigateTo('page-money');">
                 <div class="icon-wrapper">💵</div>
                 <span class="title">Ví Tài Chính</span>
                 <span class="desc">Đồng bộ quỹ chung, nạp QR, chuyển khoản đôi.</span>
@@ -272,10 +302,10 @@
 
 
     <div id="page-eat" class="page">
-        <button class="back-btn" onclick="navigateTo('page-home')">⬅️ Trang Chủ</button>
+        <button class="back-btn" onclick="toggleWideModeContainer(false); navigateTo('page-home');">⬅️ Trang Chủ</button>
         <div class="section-title"><i></i>Ăn Uống & Cấp Ẩm Thể Chất</div>
         
-        <div class="card-sub-title">⏰ Chọn Khung Thời Gian</div>
+        <div class="card-sub-title">⏰ Chọn Khung Thời Gian Gợi Ý</div>
         <div class="time-filter-grid">
             <button class="time-btn active" id="time-sang" onclick="filterByTime('sang')">🌅 Sáng</button>
             <button class="time-btn" id="time-trua" onclick="filterByTime('trua')">☀️ Trưa</button>
@@ -369,21 +399,31 @@
             </div>
         </div>
 
-        <div class="card-sub-title" style="margin-top: 16px;">📋 Gợi Ý Thực Đơn Toàn Bản (105 Món)</div>
+        <div class="card-sub-title" style="margin-top: 16px;">📋 Danh Sách Thực Đơn & Đồ Uống Song Hành (210 Lựa Chọn)</div>
         <div class="menu-tabs">
-            <button class="tab-btn active" id="tab-mienvac" onclick="switchRegionTab('mienvac')">Món Bắc 🍜</button>
-            <button class="tab-btn" id="tab-mientrung" onclick="switchRegionTab('mientrung')">Món Trung 🍲</button>
-            <button class="tab-btn" id="tab-miennam" onclick="switchRegionTab('miennam')">Món Nam 🍧</button>
+            <button class="tab-btn active" id="tab-mienvac" onclick="switchRegionTab('mienvac')">Hương Vị Bắc 🍜</button>
+            <button class="tab-btn" id="tab-mientrung" onclick="switchRegionTab('mientrung')">Hương Vị Trung 🍲</button>
+            <button class="tab-btn" id="tab-miennam" onclick="switchRegionTab('miennam')">Hương Vị Nam 🍧</button>
         </div>
-        <div class="scroll-box"><div id="menu-display-container" class="item-list"></div></div>
+
+        <div class="dual-table-layout">
+            <div class="table-column-box">
+                <div class="table-column-title" style="border-top: 3px solid var(--primary);">🍲 GỢI Ý 105 MÓN ĂN</div>
+                <div class="scroll-box rounded-top-flat"><div id="menu-display-container" class="item-list"></div></div>
+            </div>
+            <div class="table-column-box">
+                <div class="table-column-title" style="border-top: 3px solid var(--info);">🍹 GỢI Ý 105 MÓN NƯỚC</div>
+                <div class="scroll-box rounded-top-flat"><div id="drink-display-container" class="item-list"></div></div>
+            </div>
+        </div>
         
-        <button class="section-send-btn" onclick="sendSingleSection('page-eat', 'Tổng Hợp Mục Ăn Uống 🍽️')">😋 Tổng Hợp & Gửi Ăn Uống Qua Gmail</button>
+        <button class="section-send-btn" onclick="sendSingleSection('page-eat', 'Tổng Hợp Mục Ăn Uống Toàn Bản 🍽️🍹')">😋 Tổng Hợp & Gửi Thực Đơn Song Hành Qua Gmail</button>
     </div>
 
 
     <div id="page-mood" class="page">
         <button class="back-btn" onclick="navigateTo('page-home')">⬅️ Trang Chủ</button>
-        <div class="section-title"><i style="background:var(--love)"></i>Nhật Ký Cảm Xúc Aura Mở Rộng</div>
+        <div class="section-title"><i style="background:var(--love)"></i>Nhật Ký Cảm Xúc Mở Rộng</div>
         
         <div class="mood-grid">
             <div class="mood-btn" data-mood="vui" onclick="selectAdvancedMood('vui')"><span>😊</span><span>Vui vẻ</span></div>
@@ -557,10 +597,17 @@
     function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); if (particlesArray[i].alpha <= 0) { particlesArray.splice(i, 1); i--; } } requestAnimationFrame(animateParticles); }
     animateParticles();
 
-    // --- ĐIỀU HƯỚNG ---
+    // --- ĐIỀU HƯỚNG MỞ RỘNG KHUNG HÌNH ---
+    function toggleWideModeContainer(isWide) {
+        const container = document.getElementById('main-app-container');
+        if (isWide) container.classList.add('wide-mode');
+        else container.classList.remove('wide-mode');
+    }
+
     function navigateTo(pageId) { 
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active')); 
         document.getElementById(pageId).classList.add('active'); 
+        if (pageId === 'page-eat') toggleWideModeContainer(true);
         window.scrollTo({ top: 0, behavior: 'smooth' }); 
     }
 
@@ -582,10 +629,12 @@
         else if(level === 'day') { bar.style.width = '100%'; text.innerText = '100%'; desc.innerText = `Đã cấp đủ nước cơ thể 🐳`; clickedBtn.classList.add('active-good'); }
     }
 
-    // --- BỘ LỌC THỰC ĐƠN ĐỒNG BỘ 105 MÓN ---
+    // --- BỘ LỌC THỰC ĐƠN ĐỒNG BỘ SONG HÀNH (105 MÓN ĂN & 105 MÓN NƯỚC KHÔNG TRÙNG) ---
     let currentRegion = "mienvac"; let currentTimeFilter = "sang";
     const fullMenuDatabase = [];
+    const fullDrinkDatabase = [];
     
+    // Khối dữ liệu 105 Món Ăn
     const rawData = {
         mienvac: {
             sang: ["Phở bò Hà Nội 🍜", "Bún riêu cua 🦀", "Xôi xéo mỡ hành 🍛", "Bánh cuốn Thanh Trì 🥞", "Bánh mì sốt vang 🥖", "Phở gà ngải cứu 🍲", "Cháo sườn sụn 🥣", "Bún mọc măng mọc 🍡", "Xôi ngô ruốc 🌽"],
@@ -607,28 +656,72 @@
         }
     };
 
-    let count = 0;
-    for(let r in rawData){
-        for(let t in rawData[r]){
-            rawData[r][t].forEach(name => {
-                count++;
-                fullMenuDatabase.push({ name: `${count}. ${name}`, region: r, time: [t] });
-            });
+    // Khối dữ liệu 105 Món Nước uống (Cam kết hoàn toàn không trùng với món ăn)
+    const rawDrinkData = {
+        mienvac: {
+            sang: ["Cà phê trứng Phố Cổ ☕", "Trà sen Tây Hồ thanh mát 🫖", "Sữa đậu nành nóng thơm 🥛", "Nước ép sấu đá Hà Nội 🧋", "Trà nhài sương sớm 🍵", "Sinh tố bơ ngậy cốt dừa 🥑", "Cà phê đen đá đậm vị 🖤", "Sữa ngô non ấm áp 🌽", "Trà quất mật ong hạt chia 🍋"],
+            trua: ["Nước mía siêu sạch trân châu 🎋", "Trà đá Hà Nội vỉa hè 🧊", "Nước vối đá thanh nhiệt 🍃", "Nước ép cà rốt nguyên chất 🥕", "Soda chanh muối giải nhiệt 🧂", "Trà vải thạch dừa 🍹", "Nước rau má đậu xanh dừa 🌿", "Sữa chua đánh đá cacao 🍨", "Nước ép dứa mật ong 🍍"],
+            chieu: ["Trà chanh con cá Phố Nhà Thờ 🍋", "Sữa chua dẻo nếp cẩm 🍇", "Nước chè tươi đá 🍃", "Sinh tố xoài cốt dừa 🥭", "Trà đào cam sả vỉa hè 🍑", "Nước ép dưa hấu mát lạnh 🍉", "Kem tràng tiền sữa dừa 🍦", "Sữa tươi trân châu đường đen 🥛", "Trà sữa Matcha thạch mạt 🍵"],
+            toi: ["Bia hơi Hà Nội tạ hiện 🍺", "Rượu nếp cái hoa vàng 🍶", "Nước ép lựu đỏ collagen 🍹", "Trà hoa cúc mật ong ấm 🌼", "Sữa gạo lứt rang bổ dưỡng 🌾", "Nước sắn dây pha quất 🥥", "Trà gừng sả ấm bụng 🫚", "Soda việt quất mát rượi 🫐", "Nước ép ổi hồng muối ớt 🍈"]
+        },
+        mientrung: {
+            sang: ["Cà phê muối xứ Huế đậm đà ☕", "Trà xanh đun củi sương mờ 🫖", "Sữa hạt sen cung đình bùi béo 🥛", "Nước chè xanh hột quất 🍵", "Cà phê bạc xỉu miền Trung 🥛", "Nước ép cóc đá chua ngọt 🍏", "Trà sâm dứa Đà Nẵng 🍍", "Sinh tố mãng cầu gai 🍈", "Sữa đậu phộng ấm lòng 🥜"],
+            trua: ["Nước ép thanh long ruột đỏ 🍹", "Nước mía cốt quất miền Trung 🎋", "Rau má xay sữa đặc 🌿", "Nước rau má dừa tươi 🥥", "Soda chanh dây hạt chia 🧪", "Trà đông trùng hạ thảo 🌾", "Nước ép táo xanh mật ong 🍏", "Sữa chua đá sầu riêng 🍧", "Trà ô long sữa machiato 🧋"],
+            chieu: ["Chè mủ trôm nha đam mát 🥛", "Nước đười ươi hạt chia xứ Quảng 🫘", "Nước dừa xiêm thạch dừa 🥥", "Sinh tố sa-pô-chê lúa mạch 🥔", "Trà nhãn nhục hạt sen 👁️", "Nước ép cà chua mật ong 🍅", "Rượu cần tây thanh lọc 🥬", "Sữa chua túi tuổi thơ vị mít 🛍️", "Trà sữa thạch khoai môn 🍠"],
+            toi: ["Rượu hột điều thơm nồng 🍶", "Nước ép dâu tằm Đà Lạt 🍓", "Trà thảo mộc cung đình Huế 🫖", "Rượu vang sim Phú Quốc mộng mơ 🍷", "Nước nha đam đường phèn 🎋", "Sữa nghệ ấm ngủ ngon 🟡", "Nước rễ tranh mía lau độc đáo 🌾", "Nước ép bí đao hạt chia 🥒", "Soda dâu rừng mát mẻ 🍓"]
+        },
+        miennam: {
+            sang: ["Cà phê vợt hẻm nhỏ Sài Gòn ☕", "Bạc xỉu đá nhiều sữa cốt dừa 🥛", "Sữa đậu nành lá dứa thơm 🍃", "Nước sâm 24 vị giải độc 🧉", "Cà phê đá đen nguyên chất 🕶️", "Nước dừa tươi tắc ngọt 🥥", "Sinh tố mãng cầu bơ 🥑", "Trà atiso đỏ mát lạnh 🌺", "Sữa tươi trân châu sương sáo 🥛"],
+            trua: ["Nước mía sầu riêng thơm nức 🎋", "Sữa chua lắc dâu tây 🍓", "Nước cam vắt mật ong 🍊", "Rau má dừa sợi tươi 🌿", "Nước râu bắp mía lau thanh lọc 🌽", "Trà măng cụt sữa chua 🥭", "Nước bưởi hồng ép giảm cân 🍊", "Sinh tố đu đủ sữa đặc 🥭", "Soda bạc hà mát rượi 🌱"],
+            chieu: ["Trà sữa thạch phô mai kéo sợi 🧋", "Hồng trà tắc khổng lồ lề đường 🍋", "Nước dừa dứa Bến Tre 🥥", "Sinh tố bơ sầu riêng béo ngậy 🥑", "Nước mía sáp dừa thạch bắp 🌽", "Trà hoa đậu biếc chanh tươi 🦋", "Sữa chua dẻo trái cây nhiệt đới 🥝", "Nước ép dưa lưới mật ong 🍈", "Trà vải hoa hồng lãng mạn 🌹"],
+            toi: ["Bia Sài Gòn Chill phố thị 🍺", "Cocktail trái cây nhiệt đới 🍹", "Nước ép nho đen bọt tuyết 🍇", "Trà ngủ ngon hoa cúc Lavender 🪻", "Sữa hạt điều macca ấm áp 🌰", "Nước ép chanh dây bạc hà 🌿", "Nước khoáng vắt chanh muối 🍋", "Trà sữa trân châu hoàng kim 🧋", "Sinh tố chuối yến mạch hạt chia 🍌"]
+        }
+    };
+
+    // Chuyển đổi dữ liệu sang mảng đồng bộ
+    function buildDatabase(srcData, targetArr, labelType) {
+        let count = 0;
+        for(let r in srcData){
+            for(let t in srcData[r]){
+                srcData[r][t].forEach(name => {
+                    count++;
+                    targetArr.push({ name: `${count}. ${name}`, region: r, time: [t] });
+                });
+            }
+        }
+        while(targetArr.length < 105){
+            targetArr.push({ name: `${targetArr.length + 1}. Thức uống đặc sản mở rộng mùa yêu thương ✨`, region: "miennam", time: ["toi"] });
         }
     }
-    while(fullMenuDatabase.length < 105){
-        fullMenuDatabase.push({ name: `${fullMenuDatabase.length + 1}. Đặc sản ẩm thực mở rộng mùa lễ hội ✨`, region: "miennam", time: ["toi"] });
-    }
 
+    buildDatabase(rawData, fullMenuDatabase, "Món Ăn");
+    buildDatabase(rawDrinkData, fullDrinkDatabase, "Món Nước");
+
+    // Khởi tạo và đổ dữ liệu vào 2 bảng riêng biệt
     function initAndRenderMenu() {
-        const container = document.getElementById('menu-display-container'); container.innerHTML = "";
+        const menuContainer = document.getElementById('menu-display-container'); 
+        const drinkContainer = document.getElementById('drink-display-container');
+        menuContainer.innerHTML = ""; drinkContainer.innerHTML = "";
+
+        // Đổ bảng món ăn
         fullMenuDatabase.forEach((item) => {
             const itemEl = document.createElement('div'); itemEl.className = 'row-item';
             itemEl.setAttribute('data-region', item.region); itemEl.setAttribute('data-time', item.time.join(','));
-            itemEl.innerHTML = `<span>${item.name}</span><input type="checkbox" class="custom-cb">`; container.appendChild(itemEl);
+            itemEl.innerHTML = `<span>${item.name}</span><input type="checkbox" class="custom-cb" data-category="Món Ăn">`; 
+            menuContainer.appendChild(itemEl);
         });
+
+        // Đổ bảng món nước
+        fullDrinkDatabase.forEach((item) => {
+            const itemEl = document.createElement('div'); itemEl.className = 'row-item';
+            itemEl.setAttribute('data-region', item.region); itemEl.setAttribute('data-time', item.time.join(','));
+            itemEl.innerHTML = `<span>${item.name}</span><input type="checkbox" class="custom-cb" data-category="Món Nước">`; 
+            drinkContainer.appendChild(itemEl);
+        });
+
         applyDualMenuFilter();
     }
+
     function filterByTime(timeId) {
         currentTimeFilter = timeId;
         document.querySelectorAll('.time-filter-grid .time-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`time-${timeId}`).classList.add('active');
@@ -636,9 +729,17 @@
         document.querySelectorAll('.hydration-time-container .hydration-block-item').forEach(block => block.style.display = 'none'); document.getElementById(`block-drink-${timeId}`).style.display = 'block';
         applyDualMenuFilter();
     }
-    function switchRegionTab(regionId) { currentRegion = regionId; document.querySelectorAll('.menu-tabs .tab-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`tab-${regionId}`).classList.add('active'); applyDualMenuFilter(); }
+
+    function switchRegionTab(regionId) { 
+        currentRegion = regionId; 
+        document.querySelectorAll('.menu-tabs .tab-btn').forEach(btn => btn.classList.remove('active')); 
+        document.getElementById(`tab-${regionId}`).classList.add('active'); 
+        applyDualMenuFilter(); 
+    }
+
     function applyDualMenuFilter() {
-        document.querySelectorAll('#menu-display-container .row-item').forEach(item => {
+        // Lọc đồng thời cả hai container
+        document.querySelectorAll('#menu-display-container .row-item, #drink-display-container .row-item').forEach(item => {
             const itemTimeArr = item.getAttribute('data-time').split(',');
             if (item.getAttribute('data-region') === currentRegion && itemTimeArr.includes(currentTimeFilter)) {
                 item.classList.remove('hidden');
@@ -712,18 +813,17 @@
     function toggleHealthStatus(key, checkbox) { if(checkbox.checked) { alert(`⚠️ Cảnh báo: Người liên kết ghi nhận bị đau [${key.toUpperCase()}]!`); } }
     function triggerSOS() { alert("🚨 Phát lệnh SOS khẩn cấp thành công!"); }
 
-    // --- CẢI TIẾN 1: Tự động bắn email tức thì khi thay đổi công tắc gạt ở riêng mục Sức Khỏe ---
+    // --- CẢI TIẾN EMAIL TỐC HÀNH Y TẾ ---
     function triggerInstantHealthSend(checkboxElement) {
         if (!CLOUD_SCRIPT_URL || CLOUD_SCRIPT_URL.includes("DÁN_URL_APPS_SCRIPT")) {
             console.log("Chưa cấu hình URL Google Apps Script.");
             return;
         }
-        
         const titleText = checkboxElement.getAttribute('data-name');
         const actionState = checkboxElement.checked ? "ĐỀ XUẤT CẢNH BÁO / ĐANG BỊ ĐAU 🚨" : "Đã gỡ bỏ trạng thái báo đau 🔄";
         
         const payload = {
-            form_type: "Cập Nhật Y Tế Tốc Hành (Khi Thay Đổi Công Tắc Gạt)",
+            form_type: "Cập Nhật Y Tế Tốc Hành",
             "Triệu chứng tương tác": titleText,
             "Trạng thái hiện tại": actionState,
             "Thời gian ghi nhận": new Date().toLocaleString('vi-VN')
@@ -737,10 +837,10 @@
         }).catch(err => console.log("Lỗi gửi dữ liệu ngầm:", err));
     }
 
-    // --- CẢI TIẾN 2: Hàm xử lý cho các nút tổng hợp dữ liệu riêng biệt theo từng mục ---
+    // --- HÀM TỔNG HỢP VÀ GỬI EMAIL THEO MỤC CHÍNH XÁC ---
     function sendSingleSection(pageId, formTitle) {
         if (!CLOUD_SCRIPT_URL || CLOUD_SCRIPT_URL.includes("DÁN_URL_APPS_SCRIPT")) {
-            alert("⚠️ Vui lòng cấu hình URL Google Apps Script của bạn ở dòng 363 trước khi gửi!");
+            alert("⚠️ Vui lòng cấu hình URL Google Apps Script của bạn ở dòng 210 trước khi gửi!");
             return;
         }
 
@@ -780,9 +880,12 @@
             if (cb.hasAttribute('data-name')) {
                 label = cb.getAttribute('data-name');
             } else {
-                label = cb.parentElement.innerText.trim() || `Lựa chọn số ${index + 1}`;
+                let catPrefix = cb.getAttribute('data-category') ? `[${cb.getAttribute('data-category')}] ` : "";
+                label = catPrefix + (cb.parentElement.innerText.trim() || `Lựa chọn số ${index + 1}`);
             }
-            payload[label] = cb.checked ? "ĐANG ĐƯỢC CHỌN ✅" : "Không chọn ❌";
+            if(cb.checked) {
+                payload[label] = "ĐANG ĐƯỢC CHỌN ✅";
+            }
         });
 
         fetch(CLOUD_SCRIPT_URL, {
@@ -792,7 +895,7 @@
             body: JSON.stringify(payload)
         })
         .then(() => {
-            alert(`📲 Gói dữ liệu [${formTitle}] đã được tổng hợp gửi thành công về Gmail!`);
+            alert(`📲 Gói dữ liệu [${formTitle}] đã được gửi thành công về Gmail của bạn!`);
         })
         .catch(() => {
             alert("Lỗi kết nối mạng, vui lòng thử lại.");
@@ -838,14 +941,14 @@
         alert("Giao dịch chia đôi quỹ thành công!");
     }
 
-    // --- CHÈN HOÀN THIỆN 100 ĐIỀU HẸN HÒ KHÔNG SÓT MỘT MÓN ---
+    // --- 100 ĐIỀU HẸN HÒ ---
     const list100Dates = [
         "Cùng đi ngắm hoàng hôn buông xuống trên hồ 🌅","Cùng nhau nấu một bữa ăn tối từ A-Z 🍳","Đi xem phim chiếu rạp suất muộn nhất đêm 🎬","Đi dạo phố đi bộ nắm tay không rời 🌌","Uống cà phê bệt vỉa hè ngắm dòng xe qua ☕","Cùng đi siêu thị mua đồ decor phòng căn hộ 🛒","Đi du lịch xa đến một thành phố biển lộng gió 🌊","Cùng ngắm mưa rơi bên ô cửa sổ quán quen 🌧️","Tặng nhau món quà handmade tự tay làm 🎁","Đi ăn kem lề đường vào một ngày đông lạnh 🍦",
         "Cùng chụp một bộ ảnh kỷ niệm phong cách Hàn Quốc 📸","Thức đêm cùng nhau cày hết một bộ phim dài tập 📺","Đi countdown đón năm mới giữa biển người 🎉","Cùng nuôi chung hoặc chăm sóc một chú mèo con 🐈","Cùng nhau đạp xe quanh bờ hồ lộng gió 🚲","Đi hiệu sách chọn sách cho đối phương đọc 📚","Gửi tin nhắn thoại chúc ngủ ngon mỗi tối 🎙️","Cùng nhau đi chợ hoa ngày Tết truyền thống 🌸","Lên đồ thật đẹp đi ăn một bữa sang chảnh 🍾","Cùng nhau học một kỹ năng mới (vẽ, gốm, đàn) 🎨",
         "Đi dạo công viên vào buổi sáng sớm tinh mơ 🌳","Làm cho đối phương một danh sách nhạc tình ca chọn lọc 🎵","Cùng ngồi viết mục tiêu chung cho 5 năm tới 📝","Đi ăn món ăn đường phố chưa từng thử trước đây 🍢","Đi hội chợ acoustic nghe nhạc sống lãng mạn 🎸","Dành trọn một ngày cuối tuần tắt điện thoại ở bên nhau 📴","Chuẩn bị bữa sáng bất ngờ mang đến tận giường 🥞","Cùng đi chùa cầu bình an và may mắn cho cả hai ⛩️","Tự tay cắt tóc hoặc sấy tóc cho người ấy 💇‍♂️","Cùng mặc áo đôi đi check-in khắp phố phường 👕",
         "Đi công viên giải trí chơi trò cảm giác mạnh 🎢","Cùng nhau đi dã ngoại cắm trại ngoại ô thành phố ⛺","Ngồi tựa đầu vào vai nhau nghe tiếng sóng biển 🏝️","Nhắn tin chào buổi sáng kèm sticker yêu thương ☀️","Cùng đón bình minh trên một đỉnh núi cao mây mù ⛰️","Ghi lại một video tiktok nhảy đôi vui nhộn 🕺","Cùng nhau đi làm sạch và dọn dẹp phòng 🧹","Tặng người ấy một bó hoa tươi bất ngờ không nhân dịp gì 💐","Cùng đi hát karaoke quẩy hết mình 🎤","Mua vé xem một trận thi đấu thể thao trực tiếp 🏟️",
         "Cùng nhau đi ngắm sao trời đêm thanh vắng ✨","Học nấu món ăn ruột của mẹ người ấy 🍲","Chơi trò chơi boardgame đấu trí kịch tính 🎲","Cùng đi xông hơi massage thư giãn xả stress 🧖‍♀️","Tự tay làm một chiếc bánh sinh nhật ngọt ngào 🎂","Cùng đi thả diều trên bãi cỏ lộng gió chiều 🪁","Gửi đồ ăn ship bất ngờ đến nơi làm việc của người ấy 🛵","Nắm tay nhau bỏ túi áo khoác đi dạo mùa đông 🧥","Cùng đi triển lãm nghệ thuật tranh vẽ đương đại 🖼️","Ngồi đếm ngược thời gian đón sinh nhật cùng nhau 🎂",
-        "Cùng nhau nhuộm tóc một màu phá cách 💇‍♀️","Đi tàu hỏa ngắm cảnh ga sương mờ 🚂","Viết thư tay gửi qua đường bưu điện truyền thống ✉️","Cùng ăn một bát mì tôm úp lúc nửa đêm gác kiếm 🍜","Đi bơi cùng nhau ngày hè oi bức 🏊‍♂️","Cùng ngắm thành phố từ tầng cao ngút ngàn tòa nhà 🏙️","Mở nhạc và khiêu vũ ngẫu hứng giữa phòng khách 💃","Cùng trải qua một ngày làm nông ở quê yên bình 🚜","Đi ngắm cá thủy cung dưới lòng đại dương sâu 🐠","Cùng mua chung một chậu cây nhỏ đặt bàn làm việc 🪴",
+        "Cùng nhau đi nhuộm tóc một màu phá cách 💇‍♀️","Đi tàu hỏa ngắm cảnh ga sương mờ 🚂","Viết thư tay gửi qua đường bưu điện truyền thống ✉️","Cùng ăn một bát mì tôm úp lúc nửa đêm gác kiếm 🍜","Đi bơi cùng nhau ngày hè oi bức 🏊‍♂️","Cùng ngắm thành phố từ tầng cao ngút ngàn tòa nhà 🏙️","Mở nhạc và khiêu vũ ngẫu hứng giữa phòng khách 💃","Cùng trải qua một ngày làm nông ở quê yên bình 🚜","Đi ngắm cá thủy cung dưới lòng đại dương sâu 🐠","Cùng mua chung một chậu cây nhỏ đặt bàn làm việc 🪴",
         "Lên kế hoạch ăn sập chợ đêm ẩm thực địa phương 🍡","Cùng đi hiến máu nhân đạo chia sẻ yêu thương 🩸","Ngồi uống trà chiều tâm sự chuyện thầm kín xưa ☕","Dành cho nhau một cái ôm thật chặt từ phía sau 🫂","Cùng đi trượt băng hoặc trượt patin thỏa thích ⛸️","Đi ăn buffet nướng thả ga không lo béo 🥩","Cùng làm một album ảnh dán tay ghi chú kỷ niệm 📖","Đi xe buýt hai tầng vòng quanh ngắm trung tâm thành phố 🚌","Cùng nhau khui heo đất tiết kiệm sau một năm 🐖","Thử thách một ngày hoán đổi vị trí và xưng hô 🔄",
         "Đi cắm trại qua đêm đốt lửa trại nướng khoai 🪵","Cùng nhau pha một ly cocktail hương vị tình yêu 🍹","Đi dạo dưới trời tuyết rơi hoặc sương mù dày ❄️","Dành lời khen ngợi chân thành động viên mỗi ngày 🗣️","Cùng nhau đi giày đôi đi bộ leo dốc 👟","Ghé thăm trường cũ của một trong hai người 🏫","Cùng chơi một trò chơi điện tử coop đồng đội 🎮","Đi ăn món ăn cay nhất cấp độ thử thách 🌶️","Cùng nhau dọn nhà đón Tết rộn ràng 🧧","Tự tay làm nước hoa mang mùi hương đặc trưng riêng 🧪",
         "Cùng đi chèo thuyền SUP trên sông yên ả 🛶","Đi nghe một buổi thuyết trình hoặc workshop ý nghĩa 🎙️","Cùng làm quen và ăn tối với nhóm bạn thân của nhau 👥","Chuẩn bị một buổi tối nến hoa lãng mạn tại nhà 🕯️","Cùng nhau ngắm hiện tượng nguyệt thực hoặc mưa sao băng ☄️","Thử một phong cách thời trang mới lạ cho đối phương chọn 👗","Cùng nhau vẽ chung một bức tranh canvas kỷ niệm 🎨","Đi dạo chợ đêm sầm uất mua đồ lưu niệm 🏮","Cùng nhau đi bộ dưới một cơn mưa phùn nhẹ đầu mùa 🌧️","Lưu tên danh bạ của nhau bằng biệt danh siêu sến 📱",

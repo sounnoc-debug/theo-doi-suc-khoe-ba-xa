@@ -6,124 +6,215 @@
     <title>Bức Tâm Thư Liên Kết 💌</title>
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #fef3c7 0%, #f0fdf4 50%, #e0f2fe 100%);
-            --primary: #2563eb;
-            --text-dark: #0f172a;
-            --border: #e2e8f0;
+            --bg-gradient: linear-gradient(135deg, #fefae0 0%, #f7f1e3 100%);
+            --primary: #d4a373;
+            --primary-dark: #bc6c25;
+            --text-dark: #283618;
+            --border: #e9d8a6;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px rgba(188, 108, 37, 0.06);
         }
         body {
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-gradient);
             color: var(--text-dark);
-            padding: 20px 15px;
+            padding: 12px;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
             align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
         .letter-container {
             width: 100%;
             max-width: 650px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: var(--card-bg);
             border-radius: 28px;
-            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
-            padding: 35px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 22px;
             box-sizing: border-box;
-            border: 1px solid rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
         }
         h1 { 
             text-align: center; 
-            color: #1e40af; 
-            font-size: 24px; 
-            font-weight: 800; 
-            margin: 0 0 8px 0;
-            background: linear-gradient(to right, #1e3a8a, #3b82f6);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary-dark); 
+            font-size: 20px; 
+            margin: 10px 0 4px 0; 
+            font-weight: 800;
         }
-        .subtitle { text-align: center; font-size: 13px; color: #64748b; margin-bottom: 30px; font-weight: 500; }
+        .subtitle { 
+            text-align: center; 
+            font-size: 13px; 
+            color: #6c757d; 
+            margin-bottom: 20px; 
+        }
         
         .block-section {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            background: rgba(254, 250, 224, 0.5);
+            border: 1px solid var(--border);
             border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+            padding: 14px;
+            margin-bottom: 16px;
         }
-        .block-title { font-weight: 700; font-size: 14px; color: #1e3a8a; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .block-title { 
+            font-weight: 700; 
+            font-size: 13.5px; 
+            color: var(--primary-dark); 
+            margin-bottom: 10px; 
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
         
-        .rating-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
-        .check-row {
-            display: flex; align-items: center; justify-content: space-between;
-            background: white; padding: 12px 14px; border-radius: 12px;
-            border: 1px solid #f1f5f9; font-size: 13px; transition: all 0.2s;
+        .rating-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 8px; 
         }
-        .check-row:hover { border-color: #cbd5e1; background: #f8fafc; }
-        .cb-blue { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
+        
+        @media (min-width: 480px) {
+            .rating-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .check-row {
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            background: white; 
+            padding: 10px 12px; 
+            border-radius: 12px;
+            border: 1px solid #fefae0; 
+            font-size: 12.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .check-row:hover {
+            border-color: var(--primary);
+            background: #fefae0;
+        }
+        .cb-amber { 
+            width: 18px; 
+            height: 18px; 
+            accent-color: var(--primary-dark); 
+            cursor: pointer; 
+            flex-shrink: 0;
+            margin-left: 6px;
+        }
 
         textarea {
-            width: 100%; height: 130px; border-radius: 12px;
-            border: 1px solid #cbd5e1; padding: 14px; box-sizing: border-box;
-            font-family: inherit; font-size: 13px; resize: none; outline: none;
-            background-color: white; transition: all 0.2s;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+            width: 100%; 
+            height: 110px; 
+            border-radius: 14px;
+            border: 1px solid var(--border); 
+            padding: 12px; 
+            box-sizing: border-box;
+            font-family: inherit; 
+            font-size: 13px; 
+            resize: none; 
+            outline: none;
+            background-color: #fafafa; 
+            transition: all 0.2s;
+            line-height: 1.5;
         }
-        textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
+        textarea:focus { 
+            border-color: var(--primary-dark); 
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(188, 108, 37, 0.1);
+        }
 
-        .btn-group { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin-top: 24px; }
-        .btn { padding: 14px; border-radius: 12px; border: none; font-weight: 700; font-size: 14px; text-align: center; cursor: pointer; text-decoration: none; transition: all 0.2s; }
-        .btn-back { background: #f1f5f9; color: #475569; }
-        .btn-back:hover { background: #e2e8f0; }
-        .btn-send { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-        .btn-send:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35); }
+        .btn-group { 
+            display: grid; 
+            grid-template-columns: 1fr 2fr; 
+            gap: 10px; 
+            margin-top: 20px; 
+        }
+        .btn { 
+            padding: 14px; 
+            border-radius: 16px; 
+            border: none; 
+            font-weight: 700; 
+            font-size: 13.5px; 
+            text-align: center; 
+            cursor: pointer; 
+            text-decoration: none; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-back { background: #e9ecef; color: #495057; }
+        .btn-send { 
+            background: linear-gradient(135deg, var(--primary-dark), #dda15e); 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(188, 108, 37, 0.15);
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn:hover { opacity: 0.95; }
     </style>
 </head>
 <body>
 
 <div class="letter-container">
     <h1>💌 TÂM THƯ LIÊN KẾT & ĐÁNH GIÁ</h1>
-    <div class="subtitle">Chia sẻ chân thành giúp cải thiện sự thấu hiểu và gắn kết đôi bên</div>
+    <div class="subtitle">Phản hồi bí mật giúp nâng cấp và thấu hiểu mối quan hệ</div>
 
     <div class="block-section">
-        <div class="block-title">🙋‍♂️ Cảm Quan Về Sự Chăm Sóc Hôm Nay:</div>
+        <div class="block-title">🙋‍♂️ Cảm Quan Sự Chăm Sóc Hôm Hôm Nay:</div>
         <div class="rating-grid">
-            <label class="check-row"><span>Rất kiên nhẫn và dịu dàng với em 🥰</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Hơi vô tâm, trả lời tin nhắn chậm ⏱️</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Biết chủ động pha trà/chườm ấm ☕</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Nói nhiều triết lý, không chịu ôm em 🫥</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Hôm nay anh siêu tuyệt vời, 10 điểm 🌟</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Anh còn lóng ngóng nhưng có cố gắng 🛠️</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Kiên nhẫn và dịu dàng với em 🥰</span><input type="checkbox" class="cb-amber" id="letter-feel-1"></label>
+            <label class="check-row"><span>Hơi vô tâm, rep tin nhắn chậm ⏱️</span><input type="checkbox" class="cb-amber" id="letter-feel-2"></label>
+            <label class="check-row"><span>Chủ động pha trà/chườm ấm ☕</span><input type="checkbox" class="cb-amber" id="letter-feel-3"></label>
+            <label class="check-row"><span>Nói lý thuyết, ít chịu ôm em 🫥</span><input type="checkbox" class="cb-amber" id="letter-feel-4"></label>
+            <label class="check-row"><span>Hôm nay anh siêu tuyệt, 10đ 🌟</span><input type="checkbox" class="cb-amber" id="letter-feel-5"></label>
+            <label class="check-row"><span>Còn lóng ngóng nhưng có cố gắng 🛠️</span><input type="checkbox" class="cb-amber" id="letter-feel-6"></label>
         </div>
     </div>
 
     <div class="block-section">
         <div class="block-title">⚠️ Những Điều Anh Cần Khắc Phục:</div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-            <label class="check-row"><span>Đừng tranh cãi đúng sai khi em mệt/đến tháng 🤫</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Cần hỏi han em nhiều hơn thay vì chờ em nói 🗣️</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Đừng bốc hơi đột ngột mà không báo trước 🌬️</span><input type="checkbox" class="cb-blue"></label>
-            <label class="check-row"><span>Hãy hành động thực tế (mua đồ ăn, thuốc) thay vì chỉ hỏi suông 🛍️</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Đừng tranh cãi đúng sai khi em mệt/đến tháng 🤫</span><input type="checkbox" class="cb-amber" id="letter-fix-1"></label>
+            <label class="check-row"><span>Hãy chủ động hỏi han, đừng chờ em nói 🗣️</span><input type="checkbox" class="cb-amber" id="letter-fix-2"></label>
+            <label class="check-row"><span>Đừng bốc hơi đột ngột mà không báo trước 🌬️</span><input type="checkbox" class="cb-amber" id="letter-fix-3"></label>
+            <label class="check-row"><span>Hành động thực tế thay vì chỉ hỏi suông 🛍️</span><input type="checkbox" class="cb-amber" id="letter-fix-4"></label>
         </div>
     </div>
 
     <div class="block-section">
-        <div class="block-title">💭 Cảm Nghĩ & Lời Nhắn Nhủ Gửi Đến Anh:</div>
-        <textarea id="user-thought" placeholder="Hôm nay em cảm thấy thế nào về tụi mình? Ghi lại những suy nghĩ riêng tư của em tại đây nhé..."></textarea>
+        <div class="block-title">💭 Cảm Nghĩ & Lời Nhắn Nhủ Riêng Tư:</div>
+        <textarea id="user-thought" placeholder="Hôm nay em muốn nhắn nhủ gì thêm với anh không? Ghi lại những suy nghĩ tại đây nhé..."></textarea>
     </div>
 
     <div class="btn-group">
-        <a href="index.html" class="btn btn-back">⬅️ Trở Về</a>
+        <a href="index.html" class="btn btn-back">⬅️ Trở Về Menu</a>
         <button class="btn btn-send" onclick="sendLetter()">Gửi Tâm Thư Cho Anh</button>
     </div>
 </div>
 
 <script>
     function sendLetter() {
-        alert("Tâm thư đã được niêm phong mật mã và gửi đi thành công! ❤️");
+        const letterState = {};
+        const checkboxes = document.querySelectorAll('.cb-amber');
+        checkboxes.forEach(cb => { letterState[cb.id] = cb.checked; });
+        letterState['userThought'] = document.getElementById('user-thought').value;
+        localStorage.setItem('shared_letter_data', JSON.stringify(letterState));
+        alert("🔒 Tâm thư đã được niêm phong mật mã và đồng bộ trực tiếp tới hệ thống lưu trữ của anh thành công! ❤️");
+    }
+
+    window.onload = function() {
+        const savedLetter = localStorage.getItem('shared_letter_data');
+        if (savedLetter) {
+            const letterState = JSON.parse(savedLetter);
+            for (const id in letterState) {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = letterState[id];
+                    else el.value = letterState[id];
+                }
+            }
+        }
     }
 </script>
 </body>

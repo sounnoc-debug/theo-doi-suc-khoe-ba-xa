@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bức Tâm Thư Liên Kết 💌</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fef3c7 0%, #f0fdf4 50%, #e0f2fe 100%);
+            --primary: #2563eb;
+            --text-dark: #0f172a;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            padding: 20px 15px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            align-items: center;
+        }
+        .letter-container {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+            padding: 35px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+        h1 { 
+            text-align: center; 
+            color: #1e40af; 
+            font-size: 24px; 
+            font-weight: 800; 
+            margin: 0 0 8px 0;
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { text-align: center; font-size: 13px; color: #64748b; margin-bottom: 30px; font-weight: 500; }
+        
+        .block-section {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+        }
+        .block-title { font-weight: 700; font-size: 14px; color: #1e3a8a; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        
+        .rating-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        .check-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: white; padding: 12px 14px; border-radius: 12px;
+            border: 1px solid #f1f5f9; font-size: 13px; transition: all 0.2s;
+        }
+        .check-row:hover { border-color: #cbd5e1; background: #f8fafc; }
+        .cb-blue { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
+
+        textarea {
+            width: 100%; height: 130px; border-radius: 12px;
+            border: 1px solid #cbd5e1; padding: 14px; box-sizing: border-box;
+            font-family: inherit; font-size: 13px; resize: none; outline: none;
+            background-color: white; transition: all 0.2s;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+        }
+        textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin-top: 24px; }
+        .btn { padding: 14px; border-radius: 12px; border: none; font-weight: 700; font-size: 14px; text-align: center; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .btn-back { background: #f1f5f9; color: #475569; }
+        .btn-back:hover { background: #e2e8f0; }
+        .btn-send { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .btn-send:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35); }
+    </style>
+</head>
+<body>
+
+<div class="letter-container">
+    <h1>💌 TÂM THƯ LIÊN KẾT & ĐÁNH GIÁ</h1>
+    <div class="subtitle">Chia sẻ chân thành giúp cải thiện sự thấu hiểu và gắn kết đôi bên</div>
+
+    <div class="block-section">
+        <div class="block-title">🙋‍♂️ Cảm Quan Về Sự Chăm Sóc Hôm Nay:</div>
+        <div class="rating-grid">
+            <label class="check-row"><span>Rất kiên nhẫn và dịu dàng với em 🥰</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Hơi vô tâm, trả lời tin nhắn chậm ⏱️</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Biết chủ động pha trà/chườm ấm ☕</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Nói nhiều triết lý, không chịu ôm em 🫥</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Hôm nay anh siêu tuyệt vời, 10 điểm 🌟</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Anh còn lóng ngóng nhưng có cố gắng 🛠️</span><input type="checkbox" class="cb-blue"></label>
+        </div>
+    </div>
+
+    <div class="block-section">
+        <div class="block-title">⚠️ Những Điều Anh Cần Khắc Phục:</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label class="check-row"><span>Đừng tranh cãi đúng sai khi em mệt/đến tháng 🤫</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Cần hỏi han em nhiều hơn thay vì chờ em nói 🗣️</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Đừng bốc hơi đột ngột mà không báo trước 🌬️</span><input type="checkbox" class="cb-blue"></label>
+            <label class="check-row"><span>Hãy hành động thực tế (mua đồ ăn, thuốc) thay vì chỉ hỏi suông 🛍️</span><input type="checkbox" class="cb-blue"></label>
+        </div>
+    </div>
+
+    <div class="block-section">
+        <div class="block-title">💭 Cảm Nghĩ & Lời Nhắn Nhủ Gửi Đến Anh:</div>
+        <textarea id="user-thought" placeholder="Hôm nay em cảm thấy thế nào về tụi mình? Ghi lại những suy nghĩ riêng tư của em tại đây nhé..."></textarea>
+    </div>
+
+    <div class="btn-group">
+        <a href="index.html" class="btn btn-back">⬅️ Trở Về</a>
+        <button class="btn btn-send" onclick="sendLetter()">Gửi Tâm Thư Cho Anh</button>
+    </div>
+</div>
+
+<script>
+    function sendLetter() {
+        alert("Tâm thư đã được niêm phong mật mã và gửi đi thành công! ❤️");
+    }
+</script>
+</body>
+</html>

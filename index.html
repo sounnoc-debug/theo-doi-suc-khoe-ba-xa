@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ Thống Theo Dõi Người Liên Kết v16.0</title>
+    <title>Hệ Thống Theo Dõi Người Liên Kết v16.0 - Tích Hợp Gmail</title>
     <style>
         :root {
             --card-bg: rgba(255, 255, 255, 0.8);
@@ -70,7 +70,7 @@
         h1 { 
             margin: 0 0 6px 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
             background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
-            background-clip: text; /* standard property for compatibility */
+            background-clip: text;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             color: transparent;
         }
@@ -203,6 +203,15 @@
 
         .custom-cb { width: 18px; height: 18px; accent-color: var(--love); cursor: pointer; }
         .footer-status { text-align: center; font-size: 11px; color: #94a3b8; margin-top: 20px; font-weight: 600; }
+
+        .section-send-btn {
+            width: 100%; margin-top: 16px; padding: 12px; 
+            background: rgba(255, 255, 255, 0.9); border: 1px solid var(--primary); 
+            color: var(--primary); border-radius: var(--radius-md); 
+            font-size: 13px; font-weight: 700; cursor: pointer; 
+            transition: all 0.2s; box-shadow: var(--shadow-sm);
+        }
+        .section-send-btn:hover { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
@@ -367,6 +376,8 @@
             <button class="tab-btn" id="tab-miennam" onclick="switchRegionTab('miennam')">Món Nam 🍧</button>
         </div>
         <div class="scroll-box"><div id="menu-display-container" class="item-list"></div></div>
+        
+        <button class="section-send-btn" onclick="sendSingleSection('page-eat', 'Tổng Hợp Mục Ăn Uống 🍽️')">😋 Tổng Hợp & Gửi Ăn Uống Qua Gmail</button>
     </div>
 
 
@@ -407,6 +418,8 @@
                 <button class="btn-sos-trigger" onclick="submitMoodReport()" style="margin-top:16px; background:linear-gradient(135deg, var(--love) 0%, #c084fc 100%)">🚀 Phát Tín Hiệu Cảm Xúc</button>
             </div>
         </div>
+        
+        <button class="section-send-btn" style="border-color: var(--love); color: var(--love);" onclick="sendSingleSection('page-mood', 'Tổng Hợp Mục Tâm Trạng 🧠')">🧠 Tổng Hợp & Gửi Tâm Trạng Qua Gmail</button>
     </div>
 
 
@@ -419,21 +432,23 @@
         </div>
 
         <div class="item-list">
-            <div class="row-item"><div>Đau xương khớp 🦴 <span class="health-help-link" onclick="openEmergencyModal('dau-xuong')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('dau-xuong', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Đau dạ dày 🩺 <span class="health-help-link" onclick="openEmergencyModal('dau-da-day')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('dau-da-day', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Đau mỏi cơ bắp 🩹 <span class="health-help-link" onclick="openEmergencyModal('dau-co')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('dau-co', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Sốt cao cơ thể 🌡️ <span class="health-help-link" onclick="openEmergencyModal('sot-cao')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('sot-cao', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Cảm cúm / Sổ mũi 🤧 <span class="health-help-link" onclick="openEmergencyModal('cam-cum')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('cam-cum', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Đau đầu / Chóng mặt 🌀 <span class="health-help-link" onclick="openEmergencyModal('dau-dau')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('dau-dau', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Hạ đường huyết 📉 <span class="health-help-link" onclick="openEmergencyModal('ha-duong-huyet')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('ha-duong-huyet', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Dị ứng bộc phát 🧪 <span class="health-help-link" onclick="openEmergencyModal('di-ung')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('di-ung', this)"><span class="slider-legacy"></span></label></div>
-            <div class="row-item"><div>Đau răng buốt 🦷 <span class="health-help-link" onclick="openEmergencyModal('dau-rang')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" onchange="toggleHealthStatus('dau-rang', this)"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Đau xương khớp 🦴 <span class="health-help-link" onclick="openEmergencyModal('dau-xuong')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Đau xương khớp 🦴" onchange="toggleHealthStatus('dau-xuong', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Đau dạ dày 🩺 <span class="health-help-link" onclick="openEmergencyModal('dau-da-day')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Đau dạ dày 🩺" onchange="toggleHealthStatus('dau-da-day', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Đau mỏi cơ bắp 🩹 <span class="health-help-link" onclick="openEmergencyModal('dau-co')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Đau mỏi cơ bắp 🩹" onchange="toggleHealthStatus('dau-co', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Sốt cao cơ thể 🌡️ <span class="health-help-link" onclick="openEmergencyModal('sot-cao')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Sốt cao cơ thể 🌡️" onchange="toggleHealthStatus('sot-cao', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Cảm cúm / Sổ mũi 🤧 <span class="health-help-link" onclick="openEmergencyModal('cam-cum')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Cảm cúm / Sổ mũi 🤧" onchange="toggleHealthStatus('cam-cum', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Đau đầu / Chóng mặt 🌀 <span class="health-help-link" onclick="openEmergencyModal('dau-dau')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Đau đầu / Chóng mặt 🌀" onchange="toggleHealthStatus('dau-dau', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Hạ đường huyết 📉 <span class="health-help-link" onclick="openEmergencyModal('ha-duong-huyet')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Hạ đường huyết 📉" onchange="toggleHealthStatus('ha-duong-huyet', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Dị ứng bộc phát 🧪 <span class="health-help-link" onclick="openEmergencyModal('di-ung')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Dị ứng bộc phát 🧪" onchange="toggleHealthStatus('di-ung', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
+            <div class="row-item"><div>Đau răng buốt 🦷 <span class="health-help-link" onclick="openEmergencyModal('dau-rang')">Cứu trợ 🚑</span></div><label class="switch"><input type="checkbox" class="health-cb" data-name="Đau răng buốt 🦷" onchange="toggleHealthStatus('dau-rang', this); triggerInstantHealthSend(this);"><span class="slider-legacy"></span></label></div>
 
             <div class="period-link-btn" onclick="location.href='kinh-nguyet.html'">
                 <span>🩸 Xem Nhật Ký Chu Kỳ Dâu Rụng</span>
                 <span>Mở Trang Nhật Ký ➔</span>
             </div>
         </div>
+        
+        <button class="section-send-btn" style="border-color: var(--danger); color: var(--danger);" onclick="sendSingleSection('page-health', 'Tổng Hợp Mục Sức Khỏe 🏥')">🏥 Tổng Hợp & Gửi Sức Khỏe Qua Gmail</button>
     </div>
 
 
@@ -442,6 +457,8 @@
         <div class="section-title"><i style="background:var(--warning)"></i>Thử Thách Đôi: 100 Điều Khi Hẹn Hò</div>
         <div style="font-size: 11px; color: var(--text-sub); margin-bottom: 12px; font-weight: 700; text-align: center;">HÃY CHECK CÙNG NHAU ĐỂ HOÀN THÀNH TOÀN BỘ CHẶNG ĐƯỜNG YÊU THƯƠNG 🧭</div>
         <div class="scroll-box" style="max-height: 420px;"><div class="item-list" id="activity-box"></div></div>
+        
+        <button class="section-send-btn" style="border-color: var(--warning); color: var(--warning);" onclick="sendSingleSection('page-act', 'Tổng Hợp Mục Hẹn Hò 💖')">💖 Tổng Hợp & Gửi Hẹn Hò Qua Gmail</button>
     </div>
 
 
@@ -518,6 +535,9 @@
 </div>
 
 <script>
+    // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
+    const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
+
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');
     let particlesArray = [];
@@ -691,6 +711,97 @@
     function closeEmergencyModal() { document.getElementById('emergency-modal').style.display = 'none'; }
     function toggleHealthStatus(key, checkbox) { if(checkbox.checked) { alert(`⚠️ Cảnh báo: Người liên kết ghi nhận bị đau [${key.toUpperCase()}]!`); } }
     function triggerSOS() { alert("🚨 Phát lệnh SOS khẩn cấp thành công!"); }
+
+    // --- CẢI TIẾN 1: Tự động bắn email tức thì khi thay đổi công tắc gạt ở riêng mục Sức Khỏe ---
+    function triggerInstantHealthSend(checkboxElement) {
+        if (!CLOUD_SCRIPT_URL || CLOUD_SCRIPT_URL.includes("DÁN_URL_APPS_SCRIPT")) {
+            console.log("Chưa cấu hình URL Google Apps Script.");
+            return;
+        }
+        
+        const titleText = checkboxElement.getAttribute('data-name');
+        const actionState = checkboxElement.checked ? "ĐỀ XUẤT CẢNH BÁO / ĐANG BỊ ĐAU 🚨" : "Đã gỡ bỏ trạng thái báo đau 🔄";
+        
+        const payload = {
+            form_type: "Cập Nhật Y Tế Tốc Hành (Khi Thay Đổi Công Tắc Gạt)",
+            "Triệu chứng tương tác": titleText,
+            "Trạng thái hiện tại": actionState,
+            "Thời gian ghi nhận": new Date().toLocaleString('vi-VN')
+        };
+
+        fetch(CLOUD_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        }).catch(err => console.log("Lỗi gửi dữ liệu ngầm:", err));
+    }
+
+    // --- CẢI TIẾN 2: Hàm xử lý cho các nút tổng hợp dữ liệu riêng biệt theo từng mục ---
+    function sendSingleSection(pageId, formTitle) {
+        if (!CLOUD_SCRIPT_URL || CLOUD_SCRIPT_URL.includes("DÁN_URL_APPS_SCRIPT")) {
+            alert("⚠️ Vui lòng cấu hình URL Google Apps Script của bạn ở dòng 363 trước khi gửi!");
+            return;
+        }
+
+        const targetPage = document.getElementById(pageId);
+        const actionButton = targetPage.querySelector('.section-send-btn');
+        
+        const originalText = actionButton.innerText;
+        actionButton.innerText = "⏳ Đang tổng hợp gửi...";
+        actionButton.disabled = true;
+
+        const payload = { 
+            form_type: formTitle,
+            "Thời gian tổng hợp": new Date().toLocaleString('vi-VN')
+        };
+        
+        if (pageId === 'page-eat') {
+            payload["Khung giờ đang xem"] = currentTimeFilter.toUpperCase();
+            payload["Vùng miền đang xem"] = currentRegion.toUpperCase();
+            
+            const energyText = document.getElementById(`${currentTimeFilter}-pct-text`)?.innerText || "50%";
+            const energyDesc = document.getElementById(`${currentTimeFilter}-status-desc`)?.innerText || "";
+            payload["Năng lượng thể chất"] = `${energyText} (${energyDesc})`;
+            
+            const drinkText = document.getElementById(`drink-${currentTimeFilter}-pct-text`)?.innerText || "50%";
+            const drinkDesc = document.getElementById(`drink-${currentTimeFilter}-status-desc`)?.innerText || "";
+            payload["Thủy phần cơ thể"] = `${drinkText} (${drinkDesc})`;
+        }
+        
+        if (pageId === 'page-mood') {
+            payload["Trạng thái cảm xúc hiện tại"] = currentSelectedMood.toUpperCase();
+            payload["Nguyên nhân cốt lõi"] = document.getElementById('mood-reason-dropdown').value;
+        }
+
+        const allCheckBoxes = targetPage.querySelectorAll('input[type="checkbox"]');
+        allCheckBoxes.forEach((cb, index) => {
+            let label = "";
+            if (cb.hasAttribute('data-name')) {
+                label = cb.getAttribute('data-name');
+            } else {
+                label = cb.parentElement.innerText.trim() || `Lựa chọn số ${index + 1}`;
+            }
+            payload[label] = cb.checked ? "ĐANG ĐƯỢC CHỌN ✅" : "Không chọn ❌";
+        });
+
+        fetch(CLOUD_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            alert(`📲 Gói dữ liệu [${formTitle}] đã được tổng hợp gửi thành công về Gmail!`);
+        })
+        .catch(() => {
+            alert("Lỗi kết nối mạng, vui lòng thử lại.");
+        })
+        .finally(() => {
+            actionButton.innerText = originalText;
+            actionButton.disabled = false;
+        });
+    }
 
     // --- TÀI CHÍNH VÍ ---
     let balanceBoy = 750000; let balanceGirl = 500000;

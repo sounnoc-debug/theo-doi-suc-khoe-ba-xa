@@ -15,206 +15,121 @@
             --shadow: 0 10px 30px rgba(188, 108, 37, 0.06);
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-dark);
-            padding: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: var(--bg-gradient); color: var(--text-dark);
+            padding: 12px; display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; box-sizing: border-box;
         }
         .letter-container {
-            width: 100%;
-            max-width: 650px;
-            background: var(--card-bg);
-            border-radius: 28px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            padding: 22px;
-            box-sizing: border-box;
-            backdrop-filter: blur(10px);
+            width: 100%; max-width: 650px; background: var(--card-bg); border-radius: 28px;
+            box-shadow: var(--shadow); border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 22px; box-sizing: border-box; backdrop-filter: blur(10px);
         }
-        h1 { 
-            text-align: center; 
-            color: var(--primary-dark); 
-            font-size: 20px; 
-            margin: 10px 0 4px 0; 
-            font-weight: 800;
-        }
-        .subtitle { 
-            text-align: center; 
-            font-size: 13px; 
-            color: #6c757d; 
-            margin-bottom: 20px; 
-        }
-        
-        .block-section {
-            background: rgba(254, 250, 224, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 14px;
-            margin-bottom: 16px;
-        }
-        .block-title { 
-            font-weight: 700; 
-            font-size: 13.5px; 
-            color: var(--primary-dark); 
-            margin-bottom: 10px; 
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        
-        .rating-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 8px; 
-        }
-        
-        @media (min-width: 480px) {
-            .rating-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        .check-row {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between;
-            background: white; 
-            padding: 10px 12px; 
-            border-radius: 12px;
-            border: 1px solid #fefae0; 
-            font-size: 12.5px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .check-row:hover {
-            border-color: var(--primary);
-            background: #fefae0;
-        }
-        .cb-amber { 
-            width: 18px; 
-            height: 18px; 
-            accent-color: var(--primary-dark); 
-            cursor: pointer; 
-            flex-shrink: 0;
-            margin-left: 6px;
-        }
-
-        textarea {
-            width: 100%; 
-            height: 110px; 
-            border-radius: 14px;
-            border: 1px solid var(--border); 
-            padding: 12px; 
-            box-sizing: border-box;
-            font-family: inherit; 
-            font-size: 13px; 
-            resize: none; 
-            outline: none;
-            background-color: #fafafa; 
-            transition: all 0.2s;
-            line-height: 1.5;
-        }
-        textarea:focus { 
-            border-color: var(--primary-dark); 
-            background-color: #fff;
-            box-shadow: 0 0 0 3px rgba(188, 108, 37, 0.1);
-        }
-
-        .btn-group { 
-            display: grid; 
-            grid-template-columns: 1fr 2fr; 
-            gap: 10px; 
-            margin-top: 20px; 
-        }
-        .btn { 
-            padding: 14px; 
-            border-radius: 16px; 
-            border: none; 
-            font-weight: 700; 
-            font-size: 13.5px; 
-            text-align: center; 
-            cursor: pointer; 
-            text-decoration: none; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
+        h1 { text-align: center; color: var(--primary-dark); font-size: 20px; margin: 10px 0 4px 0; font-weight: 800; }
+        .subtitle { text-align: center; font-size: 13px; color: #6c757d; margin-bottom: 20px; }
+        .block-section { background: rgba(254, 250, 224, 0.5); border: 1px solid var(--border); border-radius: 18px; padding: 14px; margin-bottom: 16px; }
+        .block-title { font-weight: 700; font-size: 13.5px; color: var(--primary-dark); margin-bottom: 10px; text-transform: uppercase; }
+        .rating-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        @media (min-width: 480px) { .rating-grid { grid-template-columns: repeat(2, 1fr); } }
+        .check-row { display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 12px; border-radius: 12px; border: 1px solid #fefae0; font-size: 12.5px; cursor: pointer; transition: all 0.2s; }
+        .check-row:hover { border-color: var(--primary); background: #fefae0; }
+        .cb-amber { width: 18px; height: 18px; accent-color: var(--primary-dark); }
+        textarea { width: 100%; height: 110px; border-radius: 14px; border: 1px solid var(--border); padding: 12px; box-sizing: border-box; font-family: inherit; font-size: 13px; resize: none; outline: none; background-color: #fafafa; transition: all 0.2s; line-height: 1.5; }
+        textarea:focus { border-color: var(--primary-dark); background-color: #fff; }
+        .btn-group { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 20px; }
+        .btn { padding: 14px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; text-align: center; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
         .btn-back { background: #e9ecef; color: #495057; }
-        .btn-send { 
-            background: linear-gradient(135deg, var(--primary-dark), #dda15e); 
-            color: white; 
-            box-shadow: 0 4px 12px rgba(188, 108, 37, 0.15);
-        }
-        .btn:active { transform: scale(0.98); }
-        .btn:hover { opacity: 0.95; }
+        .btn-send { background: linear-gradient(135deg, var(--primary-dark), #dda15e); color: white; box-shadow: 0 4px 12px rgba(188, 108, 37, 0.15); }
     </style>
 </head>
 <body>
 
 <div class="letter-container">
     <h1>💌 TÂM THƯ LIÊN KẾT & ĐÁNH GIÁ</h1>
-    <div class="subtitle">Phản hồi bí mật giúp nâng cấp và thấu hiểu mối quan hệ</div>
+    <div class="subtitle">Gửi ngầm trực tiếp thư phản hồi bảo mật về Gmail của anh</div>
 
     <div class="block-section">
-        <div class="block-title">🙋‍♂️ Cảm Quan Sự Chăm Sóc Hôm Hôm Nay:</div>
+        <div class="block-title">🙋‍♂️ Cảm Quan Sự Chăm Sóc Hôm Nay:</div>
         <div class="rating-grid">
-            <label class="check-row"><span>Kiên nhẫn và dịu dàng với em 🥰</span><input type="checkbox" class="cb-amber" id="letter-feel-1"></label>
-            <label class="check-row"><span>Hơi vô tâm, rep tin nhắn chậm ⏱️</span><input type="checkbox" class="cb-amber" id="letter-feel-2"></label>
-            <label class="check-row"><span>Chủ động pha trà/chườm ấm ☕</span><input type="checkbox" class="cb-amber" id="letter-feel-3"></label>
-            <label class="check-row"><span>Nói lý thuyết, ít chịu ôm em 🫥</span><input type="checkbox" class="cb-amber" id="letter-feel-4"></label>
-            <label class="check-row"><span>Hôm nay anh siêu tuyệt, 10đ 🌟</span><input type="checkbox" class="cb-amber" id="letter-feel-5"></label>
-            <label class="check-row"><span>Còn lóng ngóng nhưng có cố gắng 🛠️</span><input type="checkbox" class="cb-amber" id="letter-feel-6"></label>
+            <label class="check-row"><span>Kiên nhẫn và dịu dàng với em 🥰</span><input type="checkbox" class="cb-amber" id="letter-feel-1" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Hơi vô tâm, rep tin nhắn chậm ⏱️</span><input type="checkbox" class="cb-amber" id="letter-feel-2" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Chủ động pha trà/chườm ấm ☕</span><input type="checkbox" class="cb-amber" id="letter-feel-3" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Nói lý thuyết, ít chịu ôm em 🫥</span><input type="checkbox" class="cb-amber" id="letter-feel-4" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Hôm nay anh siêu tuyệt, 10đ 🌟</span><input type="checkbox" class="cb-amber" id="letter-feel-5" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Còn lóng ngóng nhưng có cố gắng 🛠️</span><input type="checkbox" class="cb-amber" id="letter-feel-6" onchange="trackLocal()"></label>
         </div>
     </div>
 
     <div class="block-section">
         <div class="block-title">⚠️ Những Điều Anh Cần Khắc Phục:</div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-            <label class="check-row"><span>Đừng tranh cãi đúng sai khi em mệt/đến tháng 🤫</span><input type="checkbox" class="cb-amber" id="letter-fix-1"></label>
-            <label class="check-row"><span>Hãy chủ động hỏi han, đừng chờ em nói 🗣️</span><input type="checkbox" class="cb-amber" id="letter-fix-2"></label>
-            <label class="check-row"><span>Đừng bốc hơi đột ngột mà không báo trước 🌬️</span><input type="checkbox" class="cb-amber" id="letter-fix-3"></label>
-            <label class="check-row"><span>Hành động thực tế thay vì chỉ hỏi suông 🛍️</span><input type="checkbox" class="cb-amber" id="letter-fix-4"></label>
+            <label class="check-row"><span>Đừng tranh cãi đúng sai khi em mệt 🤫</span><input type="checkbox" class="cb-amber" id="letter-fix-1" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Hãy chủ động hỏi han, đừng chờ em nói 🗣️</span><input type="checkbox" class="cb-amber" id="letter-fix-2" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Đừng bốc hơi đột ngột không báo trước 🌬️</span><input type="checkbox" class="cb-amber" id="letter-fix-3" onchange="trackLocal()"></label>
+            <label class="check-row"><span>Hành động thực tế thay vì hỏi suông 🛍️</span><input type="checkbox" class="cb-amber" id="letter-fix-4" onchange="trackLocal()"></label>
         </div>
     </div>
 
     <div class="block-section">
         <div class="block-title">💭 Cảm Nghĩ & Lời Nhắn Nhủ Riêng Tư:</div>
-        <textarea id="user-thought" placeholder="Hôm nay em muốn nhắn nhủ gì thêm với anh không? Ghi lại những suy nghĩ tại đây nhé..."></textarea>
+        <textarea id="user-thought" oninput="trackLocal()" placeholder="Nhập lời nhắn nhủ riêng tư của em tại đây..."></textarea>
     </div>
 
     <div class="btn-group">
         <a href="index.html" class="btn btn-back">⬅️ Trở Về Menu</a>
-        <button class="btn btn-send" onclick="sendLetter()">Gửi Tâm Thư Cho Anh</button>
+        <button class="btn btn-send" id="btn-submit" onclick="sendLetterNgam()">Gửi Tâm Thư Cho Anh</button>
     </div>
 </div>
 
 <script>
-    function sendLetter() {
-        const letterState = {};
-        const checkboxes = document.querySelectorAll('.cb-amber');
-        checkboxes.forEach(cb => { letterState[cb.id] = cb.checked; });
-        letterState['userThought'] = document.getElementById('user-thought').value;
-        localStorage.setItem('shared_letter_data', JSON.stringify(letterState));
-        alert("🔒 Tâm thư đã được niêm phong mật mã và đồng bộ trực tiếp tới hệ thống lưu trữ của anh thành công! ❤️");
+    // 🔴 DÁN URL CỦA GOOGLE APPS SCRIPT BẠN VÀO ĐÂY
+    const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
+
+    function trackLocal() {
+        document.querySelectorAll('.cb-amber').forEach(cb => {
+            localStorage.setItem(cb.id, cb.checked);
+        });
+        localStorage.setItem('userThought', document.getElementById('user-thought').value);
+    }
+
+    function sendLetterNgam() {
+        const btn = document.getElementById('btn-submit');
+        btn.innerText = "🔒 Đang bảo mật gửi đi...";
+        btn.disabled = true;
+
+        const payload = { form_type: "Tâm Thư Gửi Bạn Trai 💌" };
+        
+        document.querySelectorAll('.cb-amber').forEach(cb => {
+            const keyText = cb.parentElement.innerText.trim();
+            payload[keyText] = cb.checked ? "ĐÚNG 📌" : "Không ❌";
+        });
+        payload["Lời nhắn riêng tư"] = document.getElementById('user-thought').value;
+
+        fetch(CLOUD_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            alert("🔒 Tâm thư đã được chuyển tiếp ngầm thẳng về Gmail của anh cực nhanh và an toàn! ❤️");
+        })
+        .catch(() => {
+            alert("Lỗi mạng, vui lòng thử lại.");
+        })
+        .finally(() => {
+            btn.innerText = "Gửi Tâm Thư Cho Anh";
+            btn.disabled = false;
+        });
     }
 
     window.onload = function() {
-        const savedLetter = localStorage.getItem('shared_letter_data');
-        if (savedLetter) {
-            const letterState = JSON.parse(savedLetter);
-            for (const id in letterState) {
-                const el = document.getElementById(id);
-                if (el) {
-                    if (el.type === 'checkbox') el.checked = letterState[id];
-                    else el.value = letterState[id];
-                }
-            }
-        }
+        document.querySelectorAll('.cb-amber').forEach(cb => {
+            const saved = localStorage.getItem(cb.id);
+            if (saved !== null) cb.checked = (saved === 'true');
+        });
+        const savedThought = localStorage.getItem('userThought');
+        if (savedThought) document.getElementById('user-thought').value = savedThought;
     }
 </script>
 </body>

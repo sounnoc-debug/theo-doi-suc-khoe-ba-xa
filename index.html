@@ -417,7 +417,7 @@
             </div>
         </div>
         
-        <button class="section-send-btn" onclick="sendSingleSection('page-eat', 'Tổng Hợp Mục Ăn Uống Toàn Bản 🍽️🍹')">😋 Tổng Hợp & Gửi Thực Đơn Song Hành Qua Gmail</button>
+        <button class="section-send-btn" onclick="sendSingleSection('page-eat', 'Tổng Hợp Mục Ăn Uống Toàn Bản 🍽️🍹')">😋 Tổng Hợp </button>
     </div>
 
 
@@ -459,13 +459,13 @@
             </div>
         </div>
         
-        <button class="section-send-btn" style="border-color: var(--love); color: var(--love);" onclick="sendSingleSection('page-mood', 'Tổng Hợp Mục Tâm Trạng 🧠')">🧠 Tổng Hợp & Gửi Tâm Trạng Qua Gmail</button>
+        <button class="section-send-btn" style="border-color: var(--love); color: var(--love);" onclick="sendSingleSection('page-mood', 'Tổng Hợp Mục Tâm Trạng 🧠')">🧠 Tổng Hợp </button>
     </div>
 
 
     <div id="page-health" class="page">
         <button class="back-btn" onclick="navigateTo('page-home')">⬅️ Trang Chủ</button>
-        <div class="section-title"><i style="background:var(--danger)"></i>Y Tế & Cứu Thương Đôi Mở Rộng</div>
+        <div class="section-title"><i style="background:var(--danger)"></i>Y Tế & Cứu Thương</div>
         
         <div class="sos-alert-box" style="margin-bottom: 20px;">
             <button class="btn-sos-trigger" onclick="triggerSOS()">🚨 PHÁT LỆNH SƠ CỨU KHẨN CẤP</button>
@@ -488,7 +488,7 @@
             </div>
         </div>
         
-        <button class="section-send-btn" style="border-color: var(--danger); color: var(--danger);" onclick="sendSingleSection('page-health', 'Tổng Hợp Mục Sức Khỏe 🏥')">🏥 Tổng Hợp & Gửi Sức Khỏe Qua Gmail</button>
+        <button class="section-send-btn" style="border-color: var(--danger); color: var(--danger);" onclick="sendSingleSection('page-health', 'Tổng Hợp Mục Sức Khỏe 🏥')">🏥 Tổng Hợp </button>
     </div>
 
 
@@ -498,7 +498,7 @@
         <div style="font-size: 11px; color: var(--text-sub); margin-bottom: 12px; font-weight: 700; text-align: center;">HÃY CHECK CÙNG NHAU ĐỂ HOÀN THÀNH TOÀN BỘ CHẶNG ĐƯỜNG YÊU THƯƠNG 🧭</div>
         <div class="scroll-box" style="max-height: 420px;"><div class="item-list" id="activity-box"></div></div>
         
-        <button class="section-send-btn" style="border-color: var(--warning); color: var(--warning);" onclick="sendSingleSection('page-act', 'Tổng Hợp Mục Hẹn Hò 💖')">💖 Tổng Hợp & Gửi Hẹn Hò Qua Gmail</button>
+        <button class="section-send-btn" style="border-color: var(--warning); color: var(--warning);" onclick="sendSingleSection('page-act', 'Tổng Hợp Mục Hẹn Hò 💖')">💖 Tổng Hợp </button>
     </div>
 
 
@@ -508,20 +508,20 @@
         
         <div class="wallet-card">
             <div style="font-size: 11px; opacity: 0.9; font-weight: 700;">💰 TỔNG QUỸ ĐANG CÓ</div>
-            <div class="wallet-balance" id="wallet-balance-val">1,250,000 đ</div>
+            <div class="wallet-balance" id="wallet-balance-val">0 đ</div>
             <div style="font-size: 10px; opacity: 0.8;">Đồng bộ thời gian thực hai đầu tài khoản</div>
         </div>
 
         <div class="couple-wallets-grid">
             <div class="sub-wallet-box" style="border-top: 3px solid var(--info);">
                 <div class="sub-wallet-title">🐋 Ví Nhà Trai</div>
-                <div class="sub-wallet-val" id="wallet-boy-val">750,000 đ</div>
+                <div class="sub-wallet-val" id="wallet-boy-val">0 đ</div>
                 <button class="wallet-btn-mini btn-deposit" onclick="openDepositModal('Nhà Trai')">📥 Nạp QR</button>
                 <button class="wallet-btn-mini btn-withdraw" onclick="triggerManualWithdraw('Nhà Trai')">📤 Rút Quỹ</button>
             </div>
             <div class="sub-wallet-box" style="border-top: 3px solid var(--love);">
                 <div class="sub-wallet-title">🌸 Ví Nhà Gái</div>
-                <div class="sub-wallet-val" id="wallet-girl-val">500,000 đ</div>
+                <div class="sub-wallet-val" id="wallet-girl-val">0 đ</div>
                 <button class="wallet-btn-mini btn-deposit" onclick="openDepositModal('Nhà Gái')">📥 Nạp QR</button>
                 <button class="wallet-btn-mini btn-withdraw" onclick="triggerManualWithdraw('Nhà Gái')">📤 Rút Quỹ</button>
             </div>
@@ -547,9 +547,7 @@
         <div class="card-sub-title" style="margin-top:16px;">📜 Nhật Ký Dòng Tiền Gần Recent</div>
         <div class="scroll-box" style="max-height: 200px;">
             <div class="item-list" id="transaction-history-container">
-                <div class="row-item"><div>🍿 Xem phim rạp CGV (Ví chung)</div><span style="color:var(--danger); font-weight:700;">-180,000 đ</span></div>
-                <div class="row-item"><div>🐋 Nhà trai nạp tiền thành công</div><span style="color:var(--good); font-weight:700;">+750,000 đ</span></div>
-                <div class="row-item"><div>🌸 Nhà gái nạp tiền thành công</div><span style="color:var(--good); font-weight:700;">+500,000 đ</span></div>
+
             </div>
         </div>
 
@@ -630,7 +628,7 @@
     }
 
     // --- BỘ LỌC THỰC ĐƠN ĐỒNG BỘ SONG HÀNH (105 MÓN ĂN & 105 MÓN NƯỚC KHÔNG TRÙNG) ---
-    let currentRegion = "mienvac"; let currentTimeFilter = "sang";
+    let currentRegion = "mienbac"; let currentTimeFilter = "sang";
     const fullMenuDatabase = [];
     const fullDrinkDatabase = [];
     

@@ -1,0 +1,15 @@
+{
+  "name": "theo-doi-suc-khoe-ba-xa",
+  "version": "1.0.0",
+  "description": "Health tracking system",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static HTML project - no build needed'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  }
+}

@@ -198,7 +198,7 @@
 
         <!-- MỤC 2: MỨC ĐỘ ĐAU & KHÓ CHỊU -->
         <div class="section">
-            <div class="title">⚡ 2. Vị Trí & Mức Độ Đau</div>
+            <div class="title">⚡ 2. Vị Trí & Mức ��ộ Đau</div>
             <div style="display: flex; flex-direction: column; gap: 6px;">
                 <div class="check-row"><span>Đau râm ran/âm ỉ bụng dưới 😩</span><input type="checkbox" class="custom-cb" data-weight="1" onchange="analyzeHealth()"></div>
                 <div class="check-row"><span>Đau quặn thắt từng cơn bủn rủn 😭</span><input type="checkbox" class="custom-cb" data-weight="3" onchange="analyzeHealth()"></div>
@@ -297,5 +297,9 @@
         alert("Đã lưu và đồng bộ dữ liệu chu kỳ thành công sang máy chủ của bạn!");
     }
 </script>
+<script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

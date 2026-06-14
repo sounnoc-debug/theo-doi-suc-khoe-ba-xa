@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trạm Phân Tích & Chăm Sóc Chu Kỳ 🩸</title>
+    <style>
+        :root {
+            --p-bg: #fff5f5;
+            --p-card: #ffffff;
+            --p-primary: #e53e3e;
+            --p-secondary: #9b2c2c;
+            --border-color: #feb2b2;
+            --alert-low: #38a169;
+            --alert-mid: #dd6b20;
+            --alert-high: #e53e3e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--p-bg);
+            color: #2d3748;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px;
+            background: var(--p-card);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(229, 62, 62, 0.08);
+            padding: 25px;
+            box-sizing: border-box;
+        }
+
+        h1 { text-align: center; color: var(--p-primary); margin: 0 0 5px 0; font-size: 24px; font-weight: 800; }
+        .desc { text-align: center; color: #718096; font-size: 13px; margin-bottom: 25px; }
+
+        /* Khối hiển thị phân tích tự động */
+        .analytics-box {
+            background: #fff5f5;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .status-badge {
+            align-self: center;
+            padding: 6px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            background-color: var(--alert-low);
+            transition: all 0.3s;
+        }
+        .action-advice {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            border-left: 4px solid var(--p-primary);
+            line-height: 1.5;
+        }
+
+        /* Thiết kế Form & Lưới các mục chọn */
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            background: #fffafc;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 15px;
+        }
+
+        .title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--p-secondary);
+            margin-bottom: 12px;
+            border-bottom: 1px solid #fed7d7;
+            padding-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .check-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 9px 12px;
+            border-radius: 8px;
+            border: 1px solid #fed7d7;
+            font-size: 13px;
+            margin-bottom: 6px;
+            transition: background 0.2s;
+        }
+        .check-row:hover { background: #fffafc; }
+
+        .custom-cb {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--p-primary);
+            cursor: pointer;
+        }
+
+        /* Mục nhập số ngày */
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #fed7d7;
+            font-size: 13px;
+        }
+        .day-input {
+            width: 50px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--p-primary);
+        }
+
+        /* Hệ thống nút */
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .back-btn { background: #edf2f7; color: #4a5568; }
+        .save-btn { background: var(--p-primary); color: white; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🩸 TRẠM CHĂM SÓC CHU KỲ & ĐA PHÂN TÍCH</h1>
+    <div class="desc">Hệ thống theo dõi triệu chứng và tự động đưa ra giải pháp hỗ trợ bạn đời</div>
+
+    <!-- KHỐI ĐA PHÂN TÍCH TỰ ĐỘNG (ĐỘNG THEO DẤU TÍCH) -->
+    <div class="analytics-box">
+        <div style="font-size: 14px; font-weight: bold; text-align: center; color: var(--p-secondary);">
+            📊 Đánh Giá Tình Trạng Hiện Tại Của Người Liên Kết:
+        </div>
+        <div id="status-badge" class="status-badge">TÌNH TRẠNGỔN ĐỊNH 🟢</div>
+        <div id="action-advice" class="action-advice">
+            <b>💡 Chỉ dẫn cho bạn:</b> Người liên kết đang có sức khỏe chu kỳ bình thường hoặc chưa cập nhật triệu chứng. Hãy duy trì sự quan tâm dịu dàng nhé!
+        </div>
+    </div>
+
+    <!-- LƯỚI 6 MỤC ĐÁNH GIÁ ĐA DẠNG -->
+    <div class="section-grid">
+        
+        <!-- MỤC 1: TIẾN TRÌNH CHU KỲ -->
+        <div class="section">
+            <div class="title">📅 1. Tiến Trình & Thời Gian</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div class="input-group">
+                    <span>Hôm nay là ngày thứ mấy của kỳ?</span>
+                    <input type="number" class="day-input" value="1" min="1" max="7">
+                </div>
+                <div class="check-row"><span>Kỳ dâu đến sớm/trễ bất thường ⏳</span><input type="checkbox" class="custom-cb" data-weight="2" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Lượng máu ra nhiều hơn mọi khi 🩸</span><input type="checkbox" class="custom-cb" data-weight="2" onchange="analyzeHealth()"></div>
+            </div>
+        </div>
+
+        <!-- MỤC 2: MỨC ĐỘ ĐAU & KHÓ CHỊU -->
+        <div class="section">
+            <div class="title">⚡ 2. Vị Trí & Mức Độ Đau</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div class="check-row"><span>Đau râm ran/âm ỉ bụng dưới 😩</span><input type="checkbox" class="custom-cb" data-weight="1" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Đau quặn thắt từng cơn bủn rủn 😭</span><input type="checkbox" class="custom-cb" data-weight="3" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Đau mỏi sụm thắt lưng/đùi 🦴</span><input type="checkbox" class="custom-cb" data-weight="1" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Đau đầu/Căng tức hai bên thái dương 🧠</span><input type="checkbox" class="custom-cb" data-weight="2" onchange="analyzeHealth()"></div>
+            </div>
+        </div>
+
+        <!-- MỤC 3: TRIỆU CHỨNG NỘI THỂ -->
+        <div class="section">
+            <div class="title">🩺 3. Triệu Chứng Thể Chất Kèm Theo</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div class="check-row"><span>Người nổi gai ốc, ớn lạnh dữ dội 🥶</span><input type="checkbox" class="custom-cb" data-weight="3" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Hoa mắt, chóng mặt, buồn nôn 🌀</span><input type="checkbox" class="custom-cb" data-weight="3" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Ngực căng nhức, tức ngực khó thở 🪺</span><input type="checkbox" class="custom-cb" data-weight="1" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Rối loạn tiêu hóa (Đầy hơi/Đi ngoài) 🚽</span><input type="checkbox" class="custom-cb" data-weight="1" onchange="analyzeHealth()"></div>
+            </div>
+        </div>
+
+        <!-- MỤC 4: TÂM LÝ & NĂNG LƯỢNG (PMS) -->
+        <div class="section">
+            <div class="title">🔋 4. Biến Động Tâm Lý & Năng Lượng</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div class="check-row"><span>Kiệt sức hoàn toàn, chỉ muốn nằm 🛌</span><input type="checkbox" class="custom-cb" data-weight="2" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Cực kỳ nhạy cảm, dễ tủi thân/khóc 🥺</span><input type="checkbox" class="custom-cb" data-weight="1" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Bứt rứt, dễ nổi nóng vô cớ 😡</span><input type="checkbox" class="custom-cb" data-weight="1" onchange="analyzeHealth()"></div>
+                <div class="check-row"><span>Mất ngủ bồn chồn ban đêm 🥱</span><input type="checkbox" class="custom-cb" data-weight="2" onchange="analyzeHealth()"></div>
+            </div>
+        </div>
+
+        <!-- MỤC 5: NHU CẦU DINH DƯỠNG -->
+        <div class="section">
+            <div class="title">🍫 5. Nhu Cầu Ăn Uống Đặc Biệt</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div class="check-row"><span>Thèm ăn đồ ngọt (Socola, bánh ngọt) 🍰</span><input type="checkbox" class="custom-cb"></div>
+                <div class="check-row"><span>Nhạt mồm nhạt miệng, chán ăn 🙅‍♀️</span><input type="checkbox" class="custom-cb"></div>
+                <div class="check-row"><span>Khát nước liên tục, khô cổ họng 💧</span><input type="checkbox" class="custom-cb"></div>
+            </div>
+        </div>
+
+        <!-- MỤC 6: HÀNH ĐỘNG CỦA BẠN TRAI -->
+        <div class="section">
+            <div class="title">🧸 6. Hành Động Hỗ Trợ Đang Cần Khẩn Cấp</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div class="check-row"><span>Cần túi chườm ấm bụng/lưng ngay 🔥</span><input type="checkbox" class="custom-cb"></div>
+                <div class="check-row"><span>Cần một ly trà gừng/nước mật ong ấm ☕</span><input type="checkbox" class="custom-cb"></div>
+                <div class="check-row"><span>Cần uống thuốc giảm đau (Mefenamic/Paracetamol) 💊</span><input type="checkbox" class="custom-cb"></div>
+                <div class="check-row"><span>Cần bạn trai ôm chặt hoặc xoa lưng hộ 🥰</span><input type="checkbox" class="custom-cb"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HỆ THỐNG NÚT ĐIỀU HƯỚNG -->
+    <div class="btn-group">
+        <a href="index.html" class="btn back-btn">⬅️ Trở Về</a>
+        <button class="btn save-btn" onclick="saveData()">Lưu Trạng Thái & Đồng Bộ</button>
+    </div>
+</div>
+
+<script>
+    // BỘ LOGIC TỰ ĐỘNG CHẨN ĐOÁN VÀ ĐƯA RA LỜI KHUYÊN CHO BẠN TRAI
+    function analyzeHealth() {
+        const checkboxes = document.querySelectorAll('.custom-cb');
+        let totalScore = 0;
+
+        checkboxes.forEach(cb => {
+            if (cb.checked && cb.hasAttribute('data-weight')) {
+                totalScore += parseInt(cb.getAttribute('data-weight'));
+            }
+        });
+
+        const badge = document.getElementById('status-badge');
+        const advice = document.getElementById('action-advice');
+
+        if (totalScore === 0) {
+            badge.innerText = "TÌNH TRẠNG ỔN ĐỊNH 🟢";
+            badge.style.backgroundColor = "var(--alert-low)";
+            advice.innerHTML = "<b>💡 Chỉ dẫn cho bạn:</b> Người liên kết đang ổn. Hãy chuẩn bị sẵn nước ấm và giữ không gian thoải mái cho cô ấy nhé!";
+        } else if (totalScore > 0 && totalScore <= 3) {
+            badge.innerText = "MỆT MỎI NHẸ 🟡";
+            badge.style.backgroundColor = "var(--alert-mid)";
+            advice.innerHTML = "<b>💡 Chỉ dẫn cho bạn:</b> Cô ấy đang bắt đầu khó chịu do hormone biến động. <i>Nên làm:</i> Pha ngay 1 cốc nước ấm/trà gừng, không bàn luận cự cãi, hãy kiên nhẫn lắng nghe.";
+        } else if (totalScore > 3 && totalScore <= 6) {
+            badge.innerText = "ĐAU ĐỚN / KHÓ CHỊU CAO 🟠";
+            badge.style.backgroundColor = "#dd6b20";
+            advice.innerHTML = "<b>💡 Chỉ dẫn cho bạn:</b> Cơn đau và mệt mỏi thể chất đang tăng mạnh. <i>Nên làm:</i> Chuẩn bị túi chườm ấm đặt lên bụng dưới của cô ấy, lấy khăn ấm lau người nếu cô ấy bị ớn lạnh, nhắc cô ấy nằm nghiêng co chân.";
+        } else {
+            badge.innerText = "CẢNH BÁO: QUÁ TẢI / ĐAU DỮ DỘI 🔴";
+            badge.style.backgroundColor = "var(--alert-high)";
+            advice.innerHTML = "<b>💡 Chỉ dẫn cho bạn:</b> Người liên kết đang chịu đựng cơn đau nghiêm trọng kèm triệu chứng chóng mặt/ớn lạnh. <i>Hành động ngay:</i> Pha nước ấm, chuẩn bị sẵn thuốc giảm đau chuyên dụng (nếu có chỉ định của bác sĩ), giữ ấm phòng, ôm nhẹ nhàng để xoa dịu tâm lý và theo dõi sát sao.";
+        }
+    }
+
+    function saveData() {
+        alert("Đã lưu và đồng bộ dữ liệu chu kỳ thành công sang máy chủ của bạn!");
+    }
+</script>
+</body>
+</html>

@@ -252,7 +252,8 @@
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
 <audio id="bg-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/jazz-music-sample.mp3" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ phát nhạc.
 </audio>
 
 <div id="music-control" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
@@ -588,6 +589,21 @@
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
 
+    // Hàm tự động phát sau khi có tương tác đầu tiên
+function playMusicOnFirstInteraction() {
+    const music = document.getElementById('bg-music');
+    music.play().catch(error => {
+        console.log("Đợi người dùng tương tác để phát nhạc...");
+    });
+    // Sau khi kích hoạt một lần, gỡ bỏ các sự kiện lắng nghe để tránh lặp lại
+    document.removeEventListener('click', playMusicOnFirstInteraction);
+    document.removeEventListener('touchstart', playMusicOnFirstInteraction);
+}
+
+// Lắng nghe sự kiện chạm hoặc click lần đầu tiên
+document.addEventListener('click', playMusicOnFirstInteraction, { once: true });
+document.addEventListener('touchstart', playMusicOnFirstInteraction, { once: true });
+    
     function toggleMusic() {
     const music = document.getElementById('bg-music');
     const icon = document.getElementById('music-icon');

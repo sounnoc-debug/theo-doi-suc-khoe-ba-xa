@@ -654,14 +654,26 @@
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
            
+   <script>
+    // 1. Hàm đóng mở Menu
     function toggleMenu() {
-    const menu = document.getElementById('full-menu');
-        if (menu.style.left === '0%') {
-        menu.style.left = '-100%';
-      } else {
-        menu.style.left = '0%';
-      }
+        const menu = document.getElementById('full-menu');
+        menu.style.left = (menu.style.left === '0%') ? '-100%' : '0%';
     }
+
+    // 2. Hàm chuyển trang
+    function navigateTo(pageId) {
+        // Ẩn hết trang
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        // Hiện trang được chọn
+        const targetPage = document.getElementById(pageId);
+        if(targetPage) {
+            targetPage.classList.add('active');
+        }
+        // Đóng menu nếu đang mở
+        document.getElementById('full-menu').style.left = '-100%';
+    }
+</script>
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');
     let particlesArray = [];

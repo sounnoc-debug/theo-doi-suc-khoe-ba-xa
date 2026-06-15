@@ -256,11 +256,6 @@
     <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/jazz-music-sample.mp3" type="audio/mpeg">
 </audio>
 
-<div id="music-control" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-    <button onclick="toggleMusic()" style="background: white; border: none; padding: 12px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; font-size: 20px;">
-        <span id="music-icon">🎵</span>
-    </button>
-</div>
 <div id="emergency-modal" class="health-modal">
     <div class="modal-content">
         <div class="modal-header" id="modal-title-target">🚑 Cứu Trợ Y Tế Khẩn Cấp</div>
@@ -588,14 +583,6 @@
 <script>
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
-
-    const music = document.getElementById('bg-music');
-    const unlockBtn = document.getElementById('audio-unlock');
-
-    // Hàm phát nhạc
-    function startMusic() {
-        music.play().then(() => {
-            console.log("Nhạc đã phát thành công!");
            
     
     // --- CANVAS HIỆU ỨNG HẠT ---

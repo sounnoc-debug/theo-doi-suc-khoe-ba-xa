@@ -252,6 +252,12 @@
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
 
+<div id="audio-unlock" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; backdrop-filter: blur(5px);">
+    <div style="text-align: center; padding: 20px; border: 2px solid white; border-radius: 20px;">
+        <h3>🎶 Chạm vào đây để bắt đầu bài nhạc Chill</h3>
+    </div>
+</div>
+
 <audio id="bg-music" loop>
     <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/jazz-music-sample.mp3" type="audio/mpeg">
 </audio>
@@ -596,9 +602,13 @@
     function startMusic() {
         music.play().then(() => {
             console.log("Nhạc đã phát thành công!");
-            unlockBtn.style.display = 'none'; // Ẩn nút sau khi click
+            // Ẩn lớp phủ và loại bỏ khả năng nhận tương tác
+            unlockBtn.style.display = 'none';
+            unlockBtn.style.pointerEvents = 'none'; 
         }).catch(err => {
             console.error("Lỗi phát nhạc:", err);
+            // Nếu lỗi, vẫn ẩn để không chặn web
+            unlockBtn.style.display = 'none';
         });
     }
 
@@ -606,39 +616,7 @@
     unlockBtn.addEventListener('click', () => {
         startMusic();
     });
-
-    // Dự phòng: Nếu trình duyệt tự cho phép, phát luôn
-    window.onload = () => {
-        music.play().then(() => {
-            unlockBtn.style.display = 'none';
-        }).catch(() => {
-            // Nhạc bị chặn, yêu cầu tương tác
-            console.log("Cần tương tác để phát nhạc.");
-        });
-    };
-
     
-    function toggleMusic() {
-    const music = document.getElementById('bg-music');
-    const icon = document.getElementById('music-icon');
-    
-    if (music.paused) {
-        music.play();
-        icon.innerText = "⏸️"; // Đổi thành nút tạm dừng
-    } else {
-        music.pause();
-        icon.innerText = "🎵"; // Đổi thành nút phát
-    }
-}
-
-// Tự động phát khi người dùng có thao tác chạm đầu tiên vào trang
-document.addEventListener('touchstart', function() {
-    const music = document.getElementById('bg-music');
-    if (music.paused) {
-        music.play();
-        document.getElementById('music-icon').innerText = "⏸️";
-    }
-}, { once: true });
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');
     let particlesArray = [];

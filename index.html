@@ -252,12 +252,6 @@
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
 
-<div id="audio-unlock" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; backdrop-filter: blur(5px);">
-    <div style="text-align: center; padding: 20px; border: 2px solid white; border-radius: 20px;">
-        <h3>🎶 Chạm vào đây để bắt đầu bài nhạc Chill</h3>
-    </div>
-</div>
-
 <audio id="bg-music" loop>
     <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/jazz-music-sample.mp3" type="audio/mpeg">
 </audio>
@@ -602,20 +596,7 @@
     function startMusic() {
         music.play().then(() => {
             console.log("Nhạc đã phát thành công!");
-            // Ẩn lớp phủ và loại bỏ khả năng nhận tương tác
-            unlockBtn.style.display = 'none';
-            unlockBtn.style.pointerEvents = 'none'; 
-        }).catch(err => {
-            console.error("Lỗi phát nhạc:", err);
-            // Nếu lỗi, vẫn ẩn để không chặn web
-            unlockBtn.style.display = 'none';
-        });
-    }
-
-    // Lắng nghe sự kiện click vào lớp phủ
-    unlockBtn.addEventListener('click', () => {
-        startMusic();
-    });
+           
     
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');

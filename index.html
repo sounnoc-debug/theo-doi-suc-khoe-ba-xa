@@ -251,7 +251,15 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
+<audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
+<div id="music-control" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <button onclick="toggleMusic()" style="background: white; border: none; padding: 12px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; font-size: 20px;">
+        <span id="music-icon">🎵</span>
+    </button>
+</div>
 <div id="emergency-modal" class="health-modal">
     <div class="modal-content">
         <div class="modal-header" id="modal-title-target">🚑 Cứu Trợ Y Tế Khẩn Cấp</div>
@@ -580,6 +588,27 @@
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
 
+    function toggleMusic() {
+    const music = document.getElementById('bg-music');
+    const icon = document.getElementById('music-icon');
+    
+    if (music.paused) {
+        music.play();
+        icon.innerText = "⏸️"; // Đổi thành nút tạm dừng
+    } else {
+        music.pause();
+        icon.innerText = "🎵"; // Đổi thành nút phát
+    }
+}
+
+// Tự động phát khi người dùng có thao tác chạm đầu tiên vào trang
+document.addEventListener('touchstart', function() {
+    const music = document.getElementById('bg-music');
+    if (music.paused) {
+        music.play();
+        document.getElementById('music-icon').innerText = "⏸️";
+    }
+}, { once: true });
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');
     let particlesArray = [];

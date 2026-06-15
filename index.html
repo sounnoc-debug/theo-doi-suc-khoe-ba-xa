@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Bà Xã">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hệ Thông Theo Dõi Tình Trạng Bà Xã</title>
@@ -52,6 +56,10 @@
             position: relative; z-index: 2; margin-bottom: 30px;
         }
 
+        body {
+            overflow: hidden; /* Cố định màn hình, không cho kéo trượt */
+            touch-action: none;
+        }
         /* Khi ở trang Ăn Uống, mở rộng container rộng hơn để chứa 2 bảng song song đẹp mắt */
         .app-container.wide-mode {
             max-width: 900px;

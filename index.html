@@ -246,6 +246,40 @@
             transition: all 0.2s; box-shadow: var(--shadow-sm);
         }
         .section-send-btn:hover { background: var(--primary); color: white; }
+        
+        /* Nút 3 gạch */
+.menu-btn {
+    font-size: 30px;
+    cursor: pointer;
+    background: transparent; /* Trong suốt */
+    border: none;
+    color: var(--primary); /* Màu tím thương hiệu */
+    padding: 10px;
+    z-index: 3000; /* Luôn nổi lên trên */
+}
+
+/* Bảng menu trượt toàn màn hình */
+.full-menu {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Ẩn hoàn toàn bên trái */
+    width: 100%;
+    height: 100%;
+    background: rgba(79, 70, 229, 0.95); /* Màu tím mờ */
+    backdrop-filter: blur(20px); /* Hiệu ứng kính mờ xịn sò */
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Hiệu ứng trượt mượt */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2500;
+}
+
+/* Hiệu ứng khi menu mở */
+.full-menu.show {
+    left: 0;
+}
+        
     </style>
 </head>
 <body>
@@ -587,6 +621,22 @@
 <script>
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
+
+    // Thay thế hàm toggleMenu cũ bằng hàm này
+function toggleMenu() {
+    const menu = document.getElementById('full-menu');
+    // Thêm hoặc xóa class 'show' để kích hoạt CSS trượt
+    menu.classList.toggle('show');
+}
+
+// Đảm bảo khi bấm vào link trong menu thì menu đóng lại và chuyển trang
+// Bạn hãy tìm hàm navigateTo hiện tại và thêm dòng này vào cuối hàm:
+function navigateTo(pageId) {
+    // ... code chuyển trang của bạn ...
+    
+    // Thêm dòng này vào cuối hàm để tự đóng menu khi chọn xong:
+    document.getElementById('full-menu').classList.remove('show');
+}
     
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');

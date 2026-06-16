@@ -302,6 +302,28 @@
     padding: 10px 15px; border-radius: 12px; border: none; 
     background: var(--primary); color: white; cursor: pointer; font-size: 20px; 
 }
+
+        /* Điều chỉnh cho các màn hình nhỏ (Điện thoại) */
+@media (max-width: 600px) {
+    .menu-grid {
+        grid-template-columns: 1fr !important; /* Ép về 1 cột duy nhất */
+        gap: 15px !important;
+    }
+    
+    .menu-item {
+        padding: 20px !important; /* Tăng khoảng cách để nút trông đầy đặn hơn */
+    }
+    
+    /* Đảm bảo tiêu đề và mô tả không bị tràn */
+    .menu-item .title { font-size: 16px !important; }
+    .menu-item .desc { font-size: 13px !important; }
+}
+
+/* Đảm bảo vùng chứa không bao giờ rộng hơn màn hình */
+.page {
+    max-width: 100%;
+    overflow-x: hidden;
+}
         
     </style>
 </head>

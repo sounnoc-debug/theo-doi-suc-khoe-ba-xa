@@ -282,6 +282,26 @@
 .full-menu.show {
     left: 0;
 }
+
+        /* Header & Search */
+.header-container { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+.search-bar { 
+    flex: 1; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; 
+    background: white; outline: none; font-size: 14px;
+}
+
+/* Media styling */
+.media-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+.hero-image { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; }
+.hero-video { width: 100%; border-radius: 20px; background: #000; }
+.media-audio { background: #f8fafc; padding: 10px; border-radius: 15px; text-align: center; }
+.audio-player { width: 100%; height: 40px; }
+
+/* Nút menu inline */
+.menu-btn-inline { 
+    padding: 10px 15px; border-radius: 12px; border: none; 
+    background: var(--primary); color: white; cursor: pointer; font-size: 20px; 
+}
         
     </style>
 </head>
@@ -301,32 +321,24 @@
     <button onclick="navigateTo('page-health'); toggleMenu();">🏥 Sức Khỏe</button>
     <button onclick="toggleMenu();">❌ Đóng Menu</button>
 </div>
-    <div id="page-home" class="page active">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h1 style="font-size: 24px; margin: 0;">Chào bà xã yêu! 💖</h1>
+   <div id="page-home" class="page active">
+    <div class="header-container">
         <button class="menu-btn-inline" onclick="toggleMenu()">☰</button>
+        <input type="text" class="search-bar" placeholder="Tìm kiếm tính năng..." onkeyup="filterItems(this.value)">
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 20px;">
-        <img src="your-image.jpg" alt="Ảnh kỷ niệm" style="width: 100%; border-radius: 20px; box-shadow: var(--shadow-md);">
-
-        <div style="background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 15px; border: 1px solid var(--card-border);">
-            <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 14px;">🎵 Bản nhạc của chúng mình:</p>
-            <audio controls style="width: 100%;">
-                <source src="your-song.mp3" type="audio/mpeg">
-            </audio>
+    <div class="media-container">
+        <img src="anh_cua_ban.jpg" class="hero-image" alt="Hình ảnh">
+        <div class="media-audio">
+            <p>🎵 Nhạc của chúng mình</p>
+            <audio controls class="audio-player"><source src="nhac.mp3" type="audio/mpeg"></audio>
         </div>
-
-        <video width="100%" controls style="border-radius: 20px; box-shadow: var(--shadow-md);">
-            <source src="your-video.mp4" type="video/mp4">
-        </video>
+        <video class="hero-video" controls><source src="video.mp4" type="video/mp4"></video>
     </div>
 
-    <div class="menu-grid" style="margin-top: 30px;">
+    <div class="menu-grid" id="original-menu">
         </div>
 </div>
-    
-    </div>
 
 <div id="emergency-modal" class="health-modal">
     <div class="modal-content">
@@ -656,6 +668,14 @@
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
 
+    function filterItems(query) {
+    const items = document.querySelectorAll('.menu-item');
+    items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(query.toLowerCase()) ? 'flex' : 'none';
+    });
+}
+    
     // Thay thế hàm toggleMenu cũ bằng hàm này
 function toggleMenu() {
     const menu = document.getElementById('full-menu');

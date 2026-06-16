@@ -249,14 +249,16 @@
         
         /* Nút 3 gạch */
 .menu-btn {
-    font-size: 30px;
-    cursor: pointer;
-    background: transparent; /* Trong suốt */
-    border: none;
-    color: var(--primary); /* Màu tím thương hiệu */
-    padding: 10px;
-    z-index: 3000; /* Luôn nổi lên trên */
+    position: fixed; top: 20px; right: 20px; z-index: 9999;
+    width: 50px; height: 50px; /* Làm nút tròn trịa hơn */
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%; /* Nút hình tròn */
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    font-size: 24px; cursor: pointer; color: var(--primary);
+    border: none; transition: transform 0.2s;
 }
+.menu-btn:active { transform: scale(0.9); }
 
 /* Bảng menu trượt toàn màn hình */
 .full-menu {
@@ -298,10 +300,27 @@
     <button onclick="navigateTo('page-health'); toggleMenu();">🏥 Sức Khỏe</button>
     <button onclick="toggleMenu();">❌ Đóng Menu</button>
 </div>
+    <div id="page-home" class="page active">
+    <h1>Chào mừng bà xã! 💖</h1>
     
-<audio id="bg-music" loop>
-    <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/jazz-music-sample.mp3" type="audio/mpeg">
-</audio>
+    <div style="margin: 20px 0;">
+        <img src="link_anh_cua_ban.jpg" alt="Ảnh kỷ niệm" style="width: 100%; border-radius: 20px; box-shadow: var(--shadow-md);">
+    </div>
+
+    <div style="margin: 20px 0; background: #f1f5f9; padding: 15px; border-radius: 15px;">
+        <p>🎵 Bài hát của chúng mình:</p>
+        <audio controls style="width: 100%;">
+            <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/jazz-music-sample.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <div style="margin: 20px 0;">
+        <video width="100%" controls style="border-radius: 20px;">
+            <source src="link_video.mp4" type="video/mp4">
+        </video>
+    </div>
+    
+    </div>
 
 <div id="emergency-modal" class="health-modal">
     <div class="modal-content">

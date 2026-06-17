@@ -84,9 +84,7 @@
         <div onclick="navigateTo('page-money'); toggleMenu()">💰 Ví Tài Chính</div>
         <div onclick="navigateTo('page-letter'); toggleMenu()">💌 Tâm Thư</div>
     </div>
-</div>
-
-<div id="page-home" class="page active">
+    <div id="page-home" class="page active">
     <h1>Chào bà xã 💖</h1>
     
     <div class="hero-card">
@@ -100,14 +98,6 @@
     <div class="menu-grid" id="original-menu">
         </div>
 </div>
-
-<div id="page-eat" class="page">...</div>
-<div id="emergency-modal" class="health-modal">
-    <div class="modal-content">
-        <div class="modal-header" id="modal-title-target">🚑 Cứu Trợ Y Tế Khẩn Cấp</div>
-        <div class="modal-body" id="modal-body-target">Nội dung hướng dẫn sơ cứu...</div>
-        <button class="btn-close-modal" onclick="closeEmergencyModal()">Đóng Cửa Sổ</button>
-    </div>
 </div>
         <div class="footer-status">Hệ thống an toàn • <span class="clock-display">--:--:--</span></div>
     </div>
@@ -388,21 +378,31 @@
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
 
+    <script>
     function toggleMenu() {
-        document.getElementById('full-menu').classList.toggle('show');
+        const menu = document.getElementById('full-menu');
+        menu.classList.toggle('show');
     }
 
-    function navigateTo(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-
-    function filterItems(val) {
-        const items = document.querySelectorAll('.menu-item');
-        items.forEach(item => {
-            item.style.display = item.innerText.toLowerCase().includes(val.toLowerCase()) ? 'flex' : 'none';
+    function navigateTo(pageId) {
+        // 1. Ẩn tất cả các trang
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => {
+            page.style.display = 'none'; // Ép ẩn bằng style trực tiếp
+            page.classList.remove('active');
         });
+
+        // 2. Hiện trang được chọn
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.style.display = 'block'; // Ép hiện bằng style trực tiếp
+            targetPage.classList.add('active');
+        }
+
+        // 3. Đóng menu
+        document.getElementById('full-menu').classList.remove('show');
     }
+</script>
     
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');

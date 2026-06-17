@@ -586,42 +586,6 @@
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
     
-    function toggleMenu() { document.getElementById('full-menu').classList.toggle('show'); }
-    
-    function navigateTo(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        document.getElementById('full-menu').classList.remove('show');
-    }
-
-    function filterItems(val) {
-        // Logic tìm kiếm giữ nguyên của bạn
-    }
-
-    function toggleMenu() {
-        const menu = document.getElementById('full-menu');
-        menu.classList.toggle('show');
-    }
-
-    function navigateTo(pageId) {
-        // 1. Ẩn tất cả các trang
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(page => {
-            page.style.display = 'none'; // Ép ẩn bằng style trực tiếp
-            page.classList.remove('active');
-        });
-
-        // 2. Hiện trang được chọn
-        const targetPage = document.getElementById(pageId);
-        if (targetPage) {
-            targetPage.style.display = 'block'; // Ép hiện bằng style trực tiếp
-            targetPage.classList.add('active');
-        }
-
-        // 3. Đóng menu
-        document.getElementById('full-menu').classList.remove('show');
-    }
-    
     // --- CANVAS HIỆU ỨNG HẠT ---
     const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d');
     let particlesArray = [];

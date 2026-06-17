@@ -9,54 +9,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hệ Thông Theo Dõi Tình Trạng Bà Xã</title>
 <style>
-    :root {
-        --primary: #6366f1;
-        --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #fce7f3 50%, #fef3c7 100%);
-        --text-main: #1e293b;
-        --radius-xl: 24px;
-        --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Reset lại toàn bộ để áp dụng giao diện mới */
-    * { box-sizing: border-box; }
-    body { 
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: var(--bg-gradient); 
-        background-attachment: fixed;
-        margin: 0; padding: 0; min-height: 100vh;
-    }
-
-    /* Đảm bảo container không bị bóp méo */
-    .app-container { width: 100%; max-width: 600px; margin: 0 auto; padding-bottom: 50px; }
-
-    .page { display: none; padding: 20px; }
-    .page.active { display: block; animation: fadeIn 0.3s; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    /* Layout mới cho Menu Grid */
-    .menu-grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-        gap: 16px; 
-    }
-
-    /* Sidebar Menu */
-    .full-menu {
-        position: fixed; top: 0; left: -100%; width: 85%; height: 100%;
-        background: white; z-index: 9999; transition: 0.4s; padding: 40px;
-        box-shadow: 10px 0 30px rgba(0,0,0,0.2);
-    }
-    .full-menu.show { left: 0; }
-
-    /* Media Styling */
-    .hero-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 24px; padding: 15px; margin-bottom: 20px; }
-    img, video { width: 100%; border-radius: 16px; display: block; }
+    :root { --primary: #6366f1; --bg: #f8fafc; }
+    body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; }
+    .app-container { max-width: 500px; margin: 0 auto; padding: 20px; }
     
-    .menu-btn-inline { 
-        background: var(--primary); color: white; border: none; 
-        padding: 12px 20px; border-radius: 15px; font-size: 18px; cursor: pointer;
+    /* Nút Menu */
+    .menu-btn-trigger {
+        position: fixed; top: 20px; right: 20px; z-index: 100;
+        background: var(--primary); color: white; border: none;
+        padding: 12px 18px; border-radius: 16px; font-size: 20px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
+
+    /* Trang */
+    .page { display: none; }
+    .page.active { display: block; animation: slideUp 0.4s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Media Card */
+    .hero-card { 
+        background: white; border-radius: 28px; padding: 15px; 
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05); margin-bottom: 20px;
+    }
+
+    /* Tìm kiếm */
+    .search-input {
+        width: 100%; padding: 16px; border-radius: 18px; border: none;
+        background: #eef2ff; color: #4338ca; font-weight: 600;
+    }
+
+    /* Grid */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+    
+    .footer-status { text-align: center; color: #94a3b8; font-size: 12px; margin-top: 30px; }
 </style>
 </head>
 <body>
@@ -66,40 +50,42 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
-
-<div id="main-app-container" class="app-container">
-
-    <button class="menu-btn" onclick="toggleMenu()" style="position:fixed; top:20px; right:20px; z-index:100; border:none; background:var(--primary); color:white; padding:10px 15px; border-radius:12px;">☰</button>
-
-<div id="full-menu" class="full-menu">
-    <div style="padding: 20px; text-align: right;">
-        <button onclick="toggleMenu()" style="border:none; background:none; font-size:24px;">✕</button>
-    </div>
-    
-    <div style="display:flex; flex-direction:column; gap:20px; padding:20px;">
-        <div onclick="navigateTo('page-home'); toggleMenu()">🏠 Trang Chủ</div>
-        <div onclick="navigateTo('page-eat'); toggleMenu()">🍽️ Ăn Uống</div>
-        <div onclick="navigateTo('page-mood'); toggleMenu()">🧠 Tâm Trạng</div>
-        <div onclick="navigateTo('page-health'); toggleMenu()">🏥 Sức Khỏe</div>
-        <div onclick="navigateTo('page-money'); toggleMenu()">💰 Ví Tài Chính</div>
-        <div onclick="navigateTo('page-letter'); toggleMenu()">💌 Tâm Thư</div>
-    </div>
-    <div id="page-home" class="page active">
-    <h1>Chào bà xã 💖</h1>
-    
-    <div class="hero-card">
-        <img src="anh.jpg" alt="Ảnh">
-        <audio controls style="width:100%"><source src="nhac.mp3"></audio>
-        <video controls style="margin-top:10px;"><source src="video.mp4"></video>
-    </div>
-
-    <input type="text" placeholder="🔍 Tìm kiếm..." onkeyup="filterItems(this.value)" style="width:100%; padding:15px; border-radius:15px; border:none; margin:20px 0; box-sizing:border-box;">
-
-    <div class="menu-grid" id="original-menu">
+    <div id="full-menu" class="full-menu">
+        <div style="padding: 20px; text-align: right;">
+            <button onclick="toggleMenu()" style="border:none; background:none; font-size:28px; cursor:pointer;">✕</button>
         </div>
-</div>
-</div>
-        <div class="footer-status">Hệ thống an toàn • <span class="clock-display">--:--:--</span></div>
+        <nav style="display:flex; flex-direction:column; gap:25px; padding:20px; font-weight:700; font-size:18px;">
+            <div onclick="navigateTo('page-home'); toggleMenu()">🏠 Trang Chủ</div>
+            <div onclick="navigateTo('page-eat'); toggleMenu()">🍽️ Ăn Uống</div>
+            <div onclick="navigateTo('page-mood'); toggleMenu()">🧠 Tâm Trạng</div>
+            <div onclick="navigateTo('page-health'); toggleMenu()">🏥 Sức Khỏe</div>
+            <div onclick="navigateTo('page-money'); toggleMenu()">💰 Ví Tài Chính</div>
+            <div onclick="navigateTo('page-letter'); toggleMenu()">💌 Tâm Thư</div>
+        </nav>
+    </div>
+
+    <div class="app-container">
+        <button class="menu-btn-trigger" onclick="toggleMenu()">☰</button>
+
+        <div id="page-home" class="page active">
+            <header style="margin-bottom: 25px;">
+                <h1 style="font-size: 28px; margin: 0;">Chào bà xã 💖</h1>
+                <p style="color: #64748b;">Hôm nay của bạn thế nào?</p>
+            </header>
+
+            <div class="hero-card">
+                <img src="anh.jpg" alt="Ảnh kỷ niệm">
+                <audio controls style="width:100%; margin: 10px 0;"><source src="nhac.mp3"></audio>
+                <video controls style="width:100%; border-radius:16px;"><source src="video.mp4"></video>
+            </div>
+
+            <input type="text" placeholder="🔍 Tìm kiếm..." onkeyup="filterItems(this.value)" class="search-input">
+
+            <div class="menu-grid" id="original-menu">
+                </div>
+        </div>
+        
+        <footer class="footer-status">Hệ thống an toàn • <span class="clock-display">--:--:--</span></footer>
     </div>
 
 
@@ -377,6 +363,18 @@
 <script>
     // 🔴 DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ĐỂ ĐỒNG BỘ EMAIL CHÍNH XÁC
     const CLOUD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec";
+    
+    function toggleMenu() { document.getElementById('full-menu').classList.toggle('show'); }
+    
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.getElementById('full-menu').classList.remove('show');
+    }
+
+    function filterItems(val) {
+        // Logic tìm kiếm giữ nguyên của bạn
+    }
 
     function toggleMenu() {
         const menu = document.getElementById('full-menu');

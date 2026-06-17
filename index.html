@@ -246,30 +246,6 @@
             transition: all 0.2s; box-shadow: var(--shadow-sm);
         }
         .section-send-btn:hover { background: var(--primary); color: white; }
-    
-    /* Nút Menu */
-    .menu-btn-trigger {
-        position: fixed; top: 20px; right: 20px; z-index: 100;
-        background: var(--primary); color: white; border: none;
-        padding: 12px 18px; border-radius: 16px; font-size: 20px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-
-    /* Media Card */
-    .hero-card { 
-        background: white; border-radius: 28px; padding: 15px; 
-        box-shadow: 0 10px 20px rgba(0,0,0,0.05); margin-bottom: 20px;
-    }
-
-    /* Tìm kiếm */
-    .search-input {
-        width: 100%; padding: 16px; border-radius: 18px; border: none;
-        background: #eef2ff; color: #4338ca; font-weight: 600;
-    }
-
-    /* Grid */
-    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-    
-    .footer-status { text-align: center; color: #94a3b8; font-size: 12px; margin-top: 30px; }
 </style>
 </head>
 <body>
@@ -279,45 +255,62 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
-    <div id="full-menu" class="full-menu">
-        <div style="padding: 20px; text-align: right;">
-            <button onclick="toggleMenu()" style="border:none; background:none; font-size:28px; cursor:pointer;">✕</button>
-        </div>
-        <nav style="display:flex; flex-direction:column; gap:25px; padding:20px; font-weight:700; font-size:18px;">
-            <div onclick="navigateTo('page-home'); toggleMenu()">🏠 Trang Chủ</div>
-            <div onclick="navigateTo('page-eat'); toggleMenu()">🍽️ Ăn Uống</div>
-            <div onclick="navigateTo('page-mood'); toggleMenu()">🧠 Tâm Trạng</div>
-            <div onclick="navigateTo('page-health'); toggleMenu()">🏥 Sức Khỏe</div>
-            <div onclick="navigateTo('page-money'); toggleMenu()">💰 Ví Tài Chính</div>
-            <div onclick="navigateTo('page-letter'); toggleMenu()">💌 Tâm Thư</div>
-        </nav>
+
+<audio id="bg-music" loop>
+    <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/jazz-music-sample.mp3" type="audio/mpeg">
+</audio>
+
+<div id="emergency-modal" class="health-modal">
+    <div class="modal-content">
+        <div class="modal-header" id="modal-title-target">🚑 Cứu Trợ Y Tế Khẩn Cấp</div>
+        <div class="modal-body" id="modal-body-target">Nội dung hướng dẫn sơ cứu...</div>
+        <button class="btn-close-modal" onclick="closeEmergencyModal()">Đóng Cửa Sổ</button>
     </div>
+</div>
 
-    <div class="app-container">
-        <button class="menu-btn-trigger" onclick="toggleMenu()">☰</button>
+<div id="main-app-container" class="app-container">
 
-        <div id="page-home" class="page active">
-            <header style="margin-bottom: 25px;">
-                <h1 style="font-size: 28px; margin: 0;">Chào bà xã 💖</h1>
-                <p style="color: #64748b;">Hôm nay của bạn thế nào?</p>
-            </header>
-
-            <div class="hero-card">
-                <img src="anh.jpg" alt="Ảnh kỷ niệm">
-                <audio controls style="width:100%; margin: 10px 0;"><source src="nhac.mp3"></audio>
-                <video controls style="width:100%; border-radius:16px;"><source src="video.mp4"></video>
-            </div>
-
-            <input type="text" placeholder="🔍 Tìm kiếm..." onkeyup="filterItems(this.value)" class="search-input">
-
-            <div class="menu-grid" id="original-menu">
-                </div>
+    <div id="page-home" class="page active">
+        <div class="brand-header">
+            <h1>HỆ THỐNG THEO DÕI TÌNH TRẠNG BÀ XÃ</h1>
+            <div class="subtitle">Mobile Design v1.0</div>
         </div>
         
-        <footer class="footer-status">Hệ thống an toàn • <span class="clock-display">--:--:--</span></footer>
+        <div class="menu-grid">
+            <div class="menu-item m-eat" onclick="navigateTo('page-eat')">
+                <div class="icon-wrapper">🍽️</div>
+                <span class="title">Ăn Uống</span>
+                <span class="desc">105 món ăn & 105 món nước song hành phân bổ khoa học.</span>
+            </div>
+            <div class="menu-item m-mood" onclick="navigateTo('page-mood')">
+                <div class="icon-wrapper">🧠</div>
+                <span class="title">Tâm Trạng</span>
+                <span class="desc">Các tùy chọn cảm xúc mới & giải pháp lõi.</span>
+            </div>
+            <div class="menu-item m-health" onclick="navigateTo('page-health')">
+                <div class="icon-wrapper">🏥</div>
+                <span class="title">Sức Khỏe</span>
+                <span class="desc">Cứu trợ mở rộng & Nhật ký dâu rụng liên kết.</span>
+            </div>
+            <div class="menu-item m-act" onclick="navigateTo('page-act')">
+                <div class="icon-wrapper">💖</div>
+                <span class="title">Hẹn Hò</span>
+                <span class="desc">Danh sách 100 điều mong ước chung đôi ngọt ngào.</span>
+            </div>
+            <div class="menu-item m-money" onclick="toggleWideModeContainer(false); navigateTo('page-money');">
+                <div class="icon-wrapper">💵</div>
+                <span class="title">Ví Tài Chính</span>
+                <span class="desc">Đồng bộ quỹ chung, nạp QR, chuyển khoản đôi.</span>
+            </div>
+            <div class="menu-item m-letter" onclick="navigateTo('page-letter')">
+                <div class="icon-wrapper">💌</div>
+                <span class="title">Tâm Thư</span>
+                <span class="desc">Gửi gắm tâm sự, hòm thư góp ý xây dựng tình cảm.</span>
+            </div>
+        </div>
+
+        <div class="footer-status">Hệ thống an toàn • <span class="clock-display">--:--:--</span></div>
     </div>
-
-
     <div id="page-eat" class="page">
         <button class="back-btn" onclick="toggleWideModeContainer(false); navigateTo('page-home');">⬅️ Trang Chủ</button>
         <div class="section-title"><i></i>Ăn Uống & Cấp Ẩm Thể Chất</div>

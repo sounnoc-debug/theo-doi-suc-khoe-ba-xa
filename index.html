@@ -261,93 +261,34 @@
 }
 .menu-btn-inline:active { transform: scale(0.9); }
 
-/* Bảng menu trượt toàn màn hình */
+:root {
+    --bg: #f8fafc;
+    --primary: #6366f1;
+    --glass: rgba(255, 255, 255, 0.7);
+}
+body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 0; }
+
+/* Menu Side-Bar */
 .full-menu {
-    position: fixed;
-    top: 0;
-    left: -100%; /* Ẩn hoàn toàn bên trái */
-    width: 100%;
-    height: 100%;
-    background: rgba(79, 70, 229, 0.95); /* Màu tím mờ */
-    backdrop-filter: blur(20px); /* Hiệu ứng kính mờ xịn sò */
-    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Hiệu ứng trượt mượt */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 2500;
+    position: fixed; top: 0; left: -100%; width: 80%; height: 100%;
+    background: white; z-index: 9999; transition: 0.3s; padding: 40px; box-shadow: 10px 0 30px rgba(0,0,0,0.1);
 }
+.full-menu.show { left: 0; }
 
-/* Hiệu ứng khi menu mở */
-.full-menu.show {
-    left: 0;
-}
-
-        /* Header & Search */
-.header-container { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
-.search-bar { 
-    flex: 1; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; 
-    background: white; outline: none; font-size: 14px;
-}
-
-/* Media styling */
-.media-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
-.hero-image { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; }
-.hero-video { width: 100%; border-radius: 20px; background: #000; }
-.media-audio { background: #f8fafc; padding: 10px; border-radius: 15px; text-align: center; }
-.audio-player { width: 100%; height: 40px; }
-
-/* Nút menu inline */
-.menu-btn-inline { 
-    padding: 10px 15px; border-radius: 12px; border: none; 
-    background: var(--primary); color: white; cursor: pointer; font-size: 20px; 
-}
-    
-    .menu-item {
-        padding: 20px !important; /* Tăng khoảng cách để nút trông đầy đặn hơn */
-    }
-    
-    /* Đảm bảo tiêu đề và mô tả không bị tràn */
-    .menu-item .title { font-size: 16px !important; }
-    .menu-item .desc { font-size: 13px !important; }
-}
-
-/* Đảm bảo vùng chứa không bao giờ rộng hơn màn hình */
-.page {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-        /* Tối ưu Grid cho điện thoại */
+/* Grid tự động điều chỉnh */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 16px;
 }
 
-/* Nút 3 gạch */
-.menu-btn-inline {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 15px;
-    font-size: 18px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
-}
+.page { display: none; padding: 20px; }
+.page.active { display: block; }
 
-/* Fix lỗi hình ảnh/video tràn màn hình */
-.page img, .page video {
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
-}
-
-/* Hiệu ứng mượt mà cho các khối */
-.home-media-card {
-    transition: transform 0.3s ease;
-}
+/* Media Card */
+.hero-card { background: white; border-radius: 24px; padding: 15px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+img, video { width: 100%; border-radius: 16px; margin-bottom: 10px; }
         
     </style>
 </head>
@@ -359,35 +300,31 @@
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
     
-<button class="menu-btn" onclick="toggleMenu()">☰</button>
+<button class="menu-btn" onclick="toggleMenu()" style="position:fixed; top:20px; right:20px; z-index:100; border:none; background:var(--primary); color:white; padding:10px 15px; border-radius:12px;">☰</button>
+
 <div id="full-menu" class="full-menu">
-    <button onclick="navigateTo('page-home'); toggleMenu();">🏠 Trang Chủ</button>
-    <button onclick="navigateTo('page-eat'); toggleMenu();">🍽️ Ăn Uống</button>
-    <button onclick="navigateTo('page-mood'); toggleMenu();">🧠 Tâm Trạng</button>
-    <button onclick="navigateTo('page-health'); toggleMenu();">🏥 Sức Khỏe</button>
-    <button onclick="toggleMenu();">❌ Đóng Menu</button>
-</div>
-   <div id="page-home" class="page active">
-    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-        <div>
-            <h1 style="margin: 0; font-size: 24px; color: var(--text-main);">Chào bà xã yêu! 💖</h1>
-            <p style="margin: 4px 0 0 0; color: var(--text-sub); font-size: 14px;">Chúc bạn một ngày tuyệt vời</p>
-        </div>
-        <button class="menu-btn-inline" onclick="toggleMenu()">☰</button>
-    </header>
+    <h2 onclick="toggleMenu()">Đóng Menu ✕</h2>
+    <hr>
+    <div onclick="navigateTo('page-home'); toggleMenu()">🏠 Trang Chủ</div>
+    <div onclick="navigateTo('page-eat'); toggleMenu()">🍽️ Ăn Uống</div>
+    </div>
 
-    <section class="home-media-card" style="background: white; border-radius: 25px; padding: 15px; box-shadow: var(--shadow-md); margin-bottom: 25px;">
-        <img src="your-image.jpg" style="width: 100%; border-radius: 20px; margin-bottom: 15px;">
-        <audio controls style="width: 100%; margin-bottom: 10px;"><source src="your-song.mp3" type="audio/mpeg"></audio>
-        <video width="100%" controls style="border-radius: 20px;"><source src="your-video.mp4" type="video/mp4"></video>
-    </section>
+<div id="page-home" class="page active">
+    <h1>Chào bà xã 💖</h1>
+    
+    <div class="hero-card">
+        <img src="anh.jpg" alt="Ảnh">
+        <audio controls style="width:100%"><source src="nhac.mp3"></audio>
+        <video controls style="margin-top:10px;"><source src="video.mp4"></video>
+    </div>
 
-    <input type="text" class="search-bar" placeholder="🔍 Tìm kiếm tính năng..." onkeyup="filterItems(this.value)" 
-           style="width: 100%; padding: 15px; border-radius: 20px; border: none; background: #f1f5f9; margin-bottom: 25px; box-sizing: border-box;">
+    <input type="text" placeholder="🔍 Tìm kiếm..." onkeyup="filterItems(this.value)" style="width:100%; padding:15px; border-radius:15px; border:none; margin:20px 0; box-sizing:border-box;">
 
     <div class="menu-grid" id="original-menu">
         </div>
 </div>
+
+<div id="page-eat" class="page">...</div>
 <div id="emergency-modal" class="health-modal">
     <div class="modal-content">
         <div class="modal-header" id="modal-title-target">🚑 Cứu Trợ Y Tế Khẩn Cấp</div>

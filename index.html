@@ -302,13 +302,6 @@
     padding: 10px 15px; border-radius: 12px; border: none; 
     background: var(--primary); color: white; cursor: pointer; font-size: 20px; 
 }
-
-        /* Điều chỉnh cho các màn hình nhỏ (Điện thoại) */
-@media (max-width: 600px) {
-    .menu-grid {
-        grid-template-columns: 1fr !important; /* Ép về 1 cột duy nhất */
-        gap: 15px !important;
-    }
     
     .menu-item {
         padding: 20px !important; /* Tăng khoảng cách để nút trông đầy đặn hơn */
@@ -323,6 +316,37 @@
 .page {
     max-width: 100%;
     overflow-x: hidden;
+}
+
+        /* Tối ưu Grid cho điện thoại */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+/* Nút 3 gạch */
+.menu-btn-inline {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+/* Fix lỗi hình ảnh/video tràn màn hình */
+.page img, .page video {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Hiệu ứng mượt mà cho các khối */
+.home-media-card {
+    transition: transform 0.3s ease;
 }
         
     </style>
@@ -344,24 +368,26 @@
     <button onclick="toggleMenu();">❌ Đóng Menu</button>
 </div>
    <div id="page-home" class="page active">
-    <div class="header-container">
-        <button class="menu-btn-inline" onclick="toggleMenu()">☰</button>
-        <input type="text" class="search-bar" placeholder="Tìm kiếm tính năng..." onkeyup="filterItems(this.value)">
-    </div>
-
-    <div class="media-container">
-        <img src="anh_cua_ban.jpg" class="hero-image" alt="Hình ảnh">
-        <div class="media-audio">
-            <p>🎵 Nhạc của chúng mình</p>
-            <audio controls class="audio-player"><source src="nhac.mp3" type="audio/mpeg"></audio>
+    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <div>
+            <h1 style="margin: 0; font-size: 24px; color: var(--text-main);">Chào bà xã yêu! 💖</h1>
+            <p style="margin: 4px 0 0 0; color: var(--text-sub); font-size: 14px;">Chúc bạn một ngày tuyệt vời</p>
         </div>
-        <video class="hero-video" controls><source src="video.mp4" type="video/mp4"></video>
-    </div>
+        <button class="menu-btn-inline" onclick="toggleMenu()">☰</button>
+    </header>
+
+    <section class="home-media-card" style="background: white; border-radius: 25px; padding: 15px; box-shadow: var(--shadow-md); margin-bottom: 25px;">
+        <img src="your-image.jpg" style="width: 100%; border-radius: 20px; margin-bottom: 15px;">
+        <audio controls style="width: 100%; margin-bottom: 10px;"><source src="your-song.mp3" type="audio/mpeg"></audio>
+        <video width="100%" controls style="border-radius: 20px;"><source src="your-video.mp4" type="video/mp4"></video>
+    </section>
+
+    <input type="text" class="search-bar" placeholder="🔍 Tìm kiếm tính năng..." onkeyup="filterItems(this.value)" 
+           style="width: 100%; padding: 15px; border-radius: 20px; border: none; background: #f1f5f9; margin-bottom: 25px; box-sizing: border-box;">
 
     <div class="menu-grid" id="original-menu">
         </div>
 </div>
-
 <div id="emergency-modal" class="health-modal">
     <div class="modal-content">
         <div class="modal-header" id="modal-title-target">🚑 Cứu Trợ Y Tế Khẩn Cấp</div>

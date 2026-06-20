@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ Thống Chăm Sóc Sức Khỏe Bà Xã</title>
+    <title>Hệ Thống Theo Dõi Tình Trạng Bà Xã</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -1312,6 +1312,14 @@
             <div class="mood-btn" data-mood="nhaycam"      onclick="selectAdvancedMood('nhaycam')">      <span class="mood-emoji">☁️</span><span>Nhạy cảm</span></div>
             <div class="mood-btn" data-mood="trongrong"    onclick="selectAdvancedMood('trongrong')">    <span class="mood-emoji">🕳️</span><span>Trống rỗng</span></div>
             <div class="mood-btn" data-mood="ngaptran"     onclick="selectAdvancedMood('ngaptran')">     <span class="mood-emoji">🌊</span><span>Ngập tràn</span></div>
+            <div class="mood-btn" data-mood="ganh"         onclick="selectAdvancedMood('ganh')">         <span class="mood-emoji">😤</span><span>Ghen tuông</span></div>
+            <div class="mood-btn" data-mood="chan"         onclick="selectAdvancedMood('chan')">         <span class="mood-emoji">😞</span><span>Chán nản</span></div>
+            <div class="mood-btn" data-mood="apluc"        onclick="selectAdvancedMood('apluc')">        <span class="mood-emoji">😣</span><span>Áp lực</span></div>
+            <div class="mood-btn" data-mood="codon"        onclick="selectAdvancedMood('codon')">        <span class="mood-emoji">😔</span><span>Cô đơn</span></div>
+            <div class="mood-btn" data-mood="haohung"      onclick="selectAdvancedMood('haohung')">      <span class="mood-emoji">🤩</span><span>Hào hứng</span></div>
+            <div class="mood-btn" data-mood="tuhao"        onclick="selectAdvancedMood('tuhao')">        <span class="mood-emoji">🥹</span><span>Tự hào</span></div>
+            <div class="mood-btn" data-mood="binhyen"      onclick="selectAdvancedMood('binhyen')">      <span class="mood-emoji">😌</span><span>Bình yên</span></div>
+            <div class="mood-btn" data-mood="khac"         onclick="selectAdvancedMood('khac')">         <span class="mood-emoji">✍️</span><span>Khác</span></div>
         </div>
 
         <div id="mood-advanced-panel" style="margin-top:18px">
@@ -1477,10 +1485,10 @@
     // ⚙️ CẤU HÌNH TRANG CHỦ — Bạn tự thêm nội dung tại đây
     // ═══════════════════════════════════════════════════════════════
     const HOME_MEDIA_IMAGES = [
-        { src: "anh-ky-niem.jpg", alt: "Mô tả", title: "First Date" }, { src: "anh-ky-niem1.jpg", alt: "Mô tả", title: "Doremon" }, { src: "anh-ky-niem2.jpg", alt: "Mô tả", title: "Giải thưởng cuộc thi và giải thưởng cuộc đời" }, { src: "anh-ky-niem3.jpg", alt: "Mô tả", title: "Lần đầu đi mua đồ Si" },
+        { src: "anh-ky-niem.jpg", alt: "Mô tả", title: "First Date" }, { src: "anh-ky-niem1.jpg", alt: "Mô tả", title: "First Date" }, { src: "anh-ky-niem2.jpg", alt: "Mô tả", title: "First Date" }, 
     ];
     const HOME_MEDIA_VIDEOS = [
-        { src: "video.mp4", poster: "assets/poster.jpg", title: "Hát cùng nhau ehehe" }, { src: "video1.mp4", poster: "assets/poster.jpg", title: "Thiếu nữ lực điền với cây đờn Ghi ta" }, { src: "video2.mp4", poster: "assets/poster.jpg", title: "Lần đầu đi chơi với bé" }, { src: "video3.mp4", poster: "assets/poster.jpg", title: "Những lời hứa đầu tiên" },
+        { src: "video.mp4", poster: "assets/poster.jpg", title: "Video kỷ niệm" }, { src: "video1.mp4", poster: "assets/poster.jpg", title: "Video kỷ niệm" }, 
     ];
     const HOME_MEDIA_AUDIO = [
         { src: "nhac.mp3", title: "Bài hát yêu thích" },
@@ -1773,19 +1781,56 @@
     // ===== TÂM TRẠNG =====
     let currentSelectedMood="vui";
     const moodDatabase={
-        "vui":{"all":{self:["Chia sẻ niềm vui này với người ấy ngay","Ghi lại nhật ký khoảnh khắc hạnh phúc"],partner:["Chúc mừng và cười cùng cô ấy","Tặng một món quà nhỏ ăn mừng"]},"work":{self:["Ăn mừng vì một ngày làm việc năng suất","Tự thưởng một ly nước ngon"],partner:["Khen ngợi nỗ lực của cô ấy","Nghe cô ấy kể về thành tích"]},"love":{self:["Bày tỏ tình cảm ngọt ngào với người ấy","Lên lịch cho buổi hẹn hò tiếp theo"],partner:["Đáp lại bằng lời yêu thương","Hôn nhẹ lên tóc hoặc nắm tay"]},"family":{self:["Tận hưởng không gian bình yên trong nhà","Gọi điện hỏi thăm bố mẹ"],partner:["Cùng lắng nghe câu chuyện gia đình bên nội ngoại"]}},
-        "nhoanh":{"all":{self:["Gửi một tin nhắn thoại nói lời yêu thương","Xem lại hình ảnh kỷ niệm đôi bên"],partner:["Gọi điện thoại video ngay lập tức","Nhắn tin rep tin nhắn thật nhanh"]}},
-        "overthinking":{"all":{self:["Hít thở sâu 4-7-8 để bình tĩnh","Viết hết suy nghĩ lo âu ra giấy nháp"],partner:["Kiên nhẫn lắng nghe, không phán xét","Ôm thật chặt và khẳng định sự an toàn"]}},
-        "pms":{"all":{self:["Chườm túi ấm vùng bụng dưới","Uống nước ấm, đi ngủ sớm"],partner:["Mua trà sữa/đồ ngọt mang qua","Tránh tranh cãi, làm hết việc nhà hộ"]}},
-        "giandu":{"all":{self:["Rút lui vào không gian yên tĩnh 10 phút","Không nhắn tin lúc đang nóng giận"],partner:["Giữ im lặng dỗ dành, không cự cãi","Đợi hạ nhiệt rồi nhẹ nhàng giải thích"]}},
-        "kietsuc":{"all":{self:["Tắt thông báo điện thoại, đi ngủ","Nghe nhạc thiền tần số thấp không lời"],partner:["Gửi đồ ăn ngon tẩm bổ tận nơi","Để không gian riêng tư cho cô ấy nghỉ"]}},
-        "nhaycam":{"all":{self:["Nghe danh sách nhạc lofi nhẹ nhàng","Viết nhật ký xả stress cơ thể"],partner:["Nói lời nhẹ nhàng, không dùng từ ngữ gắt gao","Bật quạt đắp chăn ôm lỏng"]}},
-        "trongrong":{"all":{self:["Đi tắm nước ấm thư giãn sâu","Nhìn ngắm cây cối xung quanh"],partner:["Chỉ cần ngồi cạnh bên không cần nói gì","Nắm chặt tay để truyền hơi ấm"]}},
-        "ngaptran":{"all":{self:["Tạm dừng mọi việc trong 5 phút","Nhắm mắt đếm ngược từ 100 về 1"],partner:["Gánh vác bớt phần công việc nếu có thể","Pha cho cô ấy một cốc nước chanh đường ấm"]}}
+        "vui":{"all":{self:["Chia sẻ niềm vui này với người ấy ngay","Ghi lại nhật ký khoảnh khắc hạnh phúc","Chụp ảnh lưu giữ kỷ niệm vui vẻ","Tự thưởng cho mình một điều nho nhỏ","Nghe một bài nhạc yêu thích để giữ năng lượng","Gọi điện chia sẻ tin vui với bạn bè","Viết ra 3 điều khiến bạn thấy vui hôm nay","Lan tỏa niềm vui bằng một nụ cười với mọi người"],partner:["Chúc mừng và cười cùng cô ấy","Tặng một món quà nhỏ ăn mừng","Đặt một bữa ăn ngon để ăn mừng cùng","Lắng nghe cô ấy kể chi tiết câu chuyện vui","Gửi lời khen ngợi chân thành","Rủ cô ấy đi chơi đâu đó để ăn mừng","Quay video chúc mừng gửi cho cô ấy","Lên kế hoạch một buổi hẹn hò ăn mừng"]},"work":{self:["Ăn mừng vì một ngày làm việc năng suất","Tự thưởng một ly nước ngon"],partner:["Khen ngợi nỗ lực của cô ấy","Nghe cô ấy kể về thành tích"]},"love":{self:["Bày tỏ tình cảm ngọt ngào với người ấy","Lên lịch cho buổi hẹn hò tiếp theo"],partner:["Đáp lại bằng lời yêu thương","Hôn nhẹ lên tóc hoặc nắm tay"]},"family":{self:["Tận hưởng không gian bình yên trong nhà","Gọi điện hỏi thăm bố mẹ"],partner:["Cùng lắng nghe câu chuyện gia đình bên nội ngoại"]}},
+        "nhoanh":{"all":{self:["Gửi một tin nhắn thoại nói lời yêu thương","Xem lại hình ảnh kỷ niệm đôi bên","Viết một đoạn nhật ký nhớ nhung","Nghe lại bài hát kỷ niệm của hai người","Đếm ngược thời gian đến lần gặp tiếp theo","Xem lại đoạn video cũ của cả hai","Tự an ủi bản thân bằng vài hơi thở sâu","Lên kế hoạch cho cuộc gặp sắp tới"],partner:["Gọi điện thoại video ngay lập tức","Nhắn tin rep tin nhắn thật nhanh","Gửi vài tấm ảnh hiện tại của bản thân","Nói những lời yêu thương trấn an","Hẹn giờ gọi video cố định mỗi ngày","Gửi một đoạn voice note dài tâm sự","Lên kế hoạch ngày gặp gần nhất có thể","Gửi món quà nhỏ ship đến tận nơi"]}},
+        "overthinking":{"all":{self:["Hít thở sâu 4-7-8 để bình tĩnh","Viết hết suy nghĩ lo âu ra giấy nháp","Đi bộ nhẹ nhàng để đầu óc thoáng hơn","Tạm ngừng lướt điện thoại 15 phút","Nghe podcast nhẹ nhàng đánh lạc hướng suy nghĩ","Uống một cốc trà ấm thư giãn","Liệt kê điều có thể kiểm soát được","Nói chuyện với một người bạn tin tưởng"],partner:["Kiên nhẫn lắng nghe, không phán xét","Ôm thật chặt và khẳng định sự an toàn","Giúp cô ấy nhìn vấn đề rõ ràng hơn","Tránh hỏi dồn quá nhiều câu hỏi","Ở bên cạnh dù không nói gì nhiều","Nhắc nhở những điều tích cực đang có","Đưa ra hướng giải quyết nếu cô ấy cần","Theo dõi sát để hỗ trợ kịp thời"]}},
+        "pms":{"all":{self:["Chườm túi ấm vùng bụng dưới","Uống nước ấm, đi ngủ sớm","Tránh đồ uống có cồn và caffeine","Massage nhẹ vùng bụng và lưng dưới","Bổ sung sắt và vitamin nhóm B","Mặc đồ rộng rãi thoải mái","Nghỉ ngơi nhiều hơn bình thường","Theo dõi mức độ đau để báo bác sĩ nếu cần"],partner:["Mua trà sữa/đồ ngọt mang qua","Tránh tranh cãi, làm hết việc nhà hộ","Chuẩn bị túi chườm ấm sẵn sàng","Hỏi thăm mức độ đau thường xuyên","Massage lưng và bụng nhẹ nhàng","Mua thuốc giảm đau theo chỉ định","Để cô ấy nghỉ ngơi không làm phiền","Chuẩn bị món ăn giàu sắt bổ dưỡng"]}},
+        "giandu":{"all":{self:["Rút lui vào không gian yên tĩnh 10 phút","Không nhắn tin lúc đang nóng giận","Hít thở sâu trước khi nói bất cứ điều gì","Viết ra điều khiến mình giận để nhìn rõ","Uống một cốc nước lạnh để hạ nhiệt","Đi bộ ra ngoài giải tỏa năng lượng","Nghe nhạc để xoa dịu cảm xúc","Tạm ngừng cuộc trò chuyện nếu cần"],partner:["Giữ im lặng dỗ dành, không cự cãi","Đợi hạ nhiệt rồi nhẹ nhàng giải thích","Không lớn tiếng đáp trả lại","Hỏi nhẹ nhàng điều gì đang làm cô ấy giận","Xin lỗi trước nếu mình có phần sai","Cho cô ấy thời gian và không gian riêng","Gửi lời nhắn ngọt ngào làm dịu tình hình","Chủ động làm hòa sau khi cô ấy bình tĩnh"]}},
+        "kietsuc":{"all":{self:["Tắt thông báo điện thoại, đi ngủ","Nghe nhạc thiền tần số thấp không lời","Ngâm chân nước ấm trước khi ngủ","Giảm bớt việc không cần thiết trong ngày","Bổ sung nước và vitamin tổng hợp","Chợp mắt một giấc ngắn 20 phút","Giãn cơ nhẹ nhàng toàn thân","Đi ngủ sớm hơn bình thường 1 giờ"],partner:["Gửi đồ ăn ngon tẩm bổ tận nơi","Để không gian riêng tư cho cô ấy nghỉ","Giúp đỡ một phần công việc của cô ấy","Nhắc nhở cô ấy đi ngủ đúng giờ","Chuẩn bị nước ấm hoặc trà thảo mộc","Hạn chế làm phiền bằng tin nhắn liên tục","Mát-xa vai gáy giúp thư giãn","Hỏi thăm xem có cần giúp gì thêm không"]}},
+        "nhaycam":{"all":{self:["Nghe danh sách nhạc lofi nhẹ nhàng","Viết nhật ký xả stress cơ thể","Tắm nước ấm để thư giãn cảm xúc","Hạn chế xem nội dung tiêu cực trên mạng","Ôm một chiếc gối ôm yêu thích","Uống trà hoa cúc làm dịu tâm trạng","Cho phép bản thân khóc nếu cần","Gọi cho người thân để được an ủi"],partner:["Nói lời nhẹ nhàng, không dùng từ ngữ gắt gao","Bật quạt đắp chăn ôm lỏng","Tránh đùa cợt quá đà lúc này","Dành thời gian ở cạnh nhiều hơn","Hỏi thăm cảm xúc một cách tế nhị","Chuẩn bị món ăn nhẹ cô ấy thích","Để cô ấy được khóc nếu cần mà không ngăn cản","Nhắn những lời yêu thương bất ngờ"]}},
+        "trongrong":{"all":{self:["Đi tắm nước ấm thư giãn sâu","Nhìn ngắm cây cối xung quanh","Viết ra cảm giác hiện tại của mình","Nghe một bản nhạc không lời chữa lành","Đi dạo ngoài trời hít thở không khí","Cho phép bản thân không làm gì cả","Uống một cốc nước ấm chậm rãi","Ngồi thiền 5-10 phút tĩnh tâm"],partner:["Chỉ cần ngồi cạnh bên không cần nói gì","Nắm chặt tay để truyền hơi ấm","Ôm cô ấy một cách nhẹ nhàng","Không hỏi quá nhiều, chỉ ở bên","Cùng cô ấy đi dạo ngoài trời","Pha cho cô ấy đồ uống ấm yêu thích","Để cô ấy yên tĩnh nếu cô ấy muốn","Nhắn một lời nhắn ấm áp bất ngờ"]}},
+        "ngaptran":{"all":{self:["Tạm dừng mọi việc trong 5 phút","Nhắm mắt đếm ngược từ 100 về 1","Viết ra tất cả việc cần làm để sắp xếp lại","Uống một cốc nước mát để tỉnh táo","Chia nhỏ công việc thành từng phần","Hít thở sâu vài lần liên tiếp","Tạm gác việc kém quan trọng lại","Nhờ người khác hỗ trợ nếu có thể"],partner:["Gánh vác bớt phần công việc nếu có thể","Pha cho cô ấy một cốc nước chanh đường ấm","Giúp cô ấy sắp xếp lại thứ tự ưu tiên","Động viên cô ấy rằng mọi việc sẽ ổn","Giảm bớt yêu cầu hoặc kỳ vọng lúc này","Cho cô ấy thời gian nghỉ ngắn giữa giờ","Chủ động làm thay một số việc nhà","Ở bên hỗ trợ tinh thần khi cần"]}},
+        "ganh":{"all":{self:["Tự hỏi bản thân lý do thực sự của cảm giác này","Hít thở sâu trước khi nói ra cảm xúc","Tránh kiểm tra điện thoại của đối phương","Viết ra điều khiến mình lo lắng","Trò chuyện thẳng thắn khi đã bình tĩnh","Tự nhắc bản thân về sự tin tưởng đã có","Tìm hoạt động khác để phân tâm tạm thời","Chia sẻ cảm xúc thật với đối phương"],partner:["Trấn an bằng lời nói chân thành","Minh bạch về các mối quan hệ xung quanh","Dành thời gian chất lượng nhiều hơn","Tránh giấu giếm thông tin gây hiểu lầm","Lắng nghe lý do gây ra sự ghen tuông","Khẳng định lại tình cảm dành cho cô ấy","Giảm tiếp xúc với đối tượng gây hiểu lầm","Cùng nhau thống nhất giới hạn phù hợp"]}},
+        "chan":{"all":{self:["Thử một hoạt động mới mẻ trong ngày","Ra ngoài hít thở không khí trong lành","Gặp gỡ bạn bè để đổi không khí","Xem lại những điều mình từng yêu thích","Lập một kế hoạch nhỏ cho tương lai gần","Nghe một playlist tạo cảm hứng","Dọn dẹp không gian sống cho gọn gàng","Viết ra điều mình mong muốn thay đổi"],partner:["Rủ cô ấy đi đâu đó đổi không khí","Tạo bất ngờ nhỏ trong ngày","Cùng lên kế hoạch một chuyến đi gần","Khơi gợi lại sở thích cũ của cô ấy","Dành thời gian trò chuyện nhiều hơn","Động viên bằng những lời tích cực","Cùng thử một trải nghiệm mới","Hỏi cô ấy muốn làm gì để vui hơn"]}},
+        "apluc":{"all":{self:["Chia nhỏ công việc thành các bước nhỏ","Dành 10 phút nghỉ ngơi giữa giờ","Viết ra danh sách ưu tiên cần làm","Tập thể dục nhẹ để giảm căng thẳng","Nói chuyện với người tin tưởng để giải tỏa","Ngủ đủ giấc để phục hồi năng lượng","Đặt giới hạn thời gian cho công việc","Tự thưởng bản thân sau khi hoàn thành việc"],partner:["San sẻ một phần công việc nếu có thể","Động viên tinh thần thường xuyên hơn","Tránh tạo thêm áp lực không cần thiết","Chuẩn bị bữa ăn để cô ấy đỡ lo","Nhắc cô ấy nghỉ ngơi đúng lúc","Lắng nghe khi cô ấy cần chia sẻ","Giúp cô ấy sắp xếp lại công việc","Ở bên hỗ trợ khi cần thiết nhất"]}},
+        "codon":{"all":{self:["Gọi điện cho người thân hoặc bạn bè","Viết ra cảm xúc của mình vào nhật ký","Tham gia một hoạt động cộng đồng nhỏ","Nuôi dưỡng một sở thích cá nhân","Ra ngoài đến nơi đông người một chút","Nhắn tin cho người mình tin tưởng","Tự chăm sóc bản thân chu đáo hơn","Nghe một bản nhạc ấm áp dễ chịu"],partner:["Dành nhiều thời gian ở bên cô ấy hơn","Nhắn tin hỏi thăm thường xuyên hơn","Hẹn gặp mặt trực tiếp nếu có thể","Gọi video để cảm thấy gần nhau hơn","Lắng nghe và đồng cảm với cảm xúc đó","Lên kế hoạch gặp nhau sớm nhất","Gửi lời nhắn ấm áp bất ngờ","Nhắc cô ấy luôn có người ở bên"]}},
+        "haohung":{"all":{self:["Lập kế hoạch chi tiết cho điều sắp tới","Chia sẻ sự hào hứng với người thân","Ghi lại cảm xúc hiện tại vào nhật ký","Chuẩn bị mọi thứ cần thiết trước","Đếm ngược thời gian cho sự kiện","Tận hưởng cảm giác chờ đợi tích cực","Rủ thêm người cùng chia sẻ niềm vui","Lưu giữ khoảnh khắc bằng hình ảnh"],partner:["Chia sẻ sự hào hứng cùng cô ấy","Hỏi thêm chi tiết để cùng mong chờ","Chuẩn bị cùng cô ấy nếu cần","Tạo thêm bất ngờ liên quan đến điều đó","Ghi nhớ ngày quan trọng sắp tới","Cùng lên kế hoạch chi tiết","Động viên tinh thần hào hứng đó","Tận hưởng khoảnh khắc cùng cô ấy"]}},
+        "tuhao":{"all":{self:["Ghi lại thành tích vào nhật ký cá nhân","Tự thưởng cho bản thân một điều đặc biệt","Chia sẻ niềm tự hào với người thân","Đặt mục tiêu mới để tiếp tục phát triển","Lưu giữ kỷ niệm bằng hình ảnh","Cảm ơn những người đã hỗ trợ mình","Dành thời gian tận hưởng cảm giác này","Đăng tải khoảnh khắc đáng nhớ"],partner:["Khen ngợi và tự hào cùng cô ấy","Tổ chức một buổi ăn mừng nhỏ","Chia sẻ niềm vui với người thân hai bên","Tặng quà ghi nhận thành tích đó","Đăng story chúc mừng cô ấy","Ghi nhớ ngày này như một kỷ niệm đẹp","Khuyến khích cô ấy tiếp tục phát huy","Dành thời gian đặc biệt ăn mừng cùng"]}},
+        "binhyen":{"all":{self:["Tận hưởng khoảnh khắc tĩnh lặng hiện tại","Ngồi thiền hoặc hít thở sâu thư thái","Đọc một cuốn sách yêu thích","Pha một ấm trà thưởng thức chậm rãi","Ngắm cảnh thiên nhiên xung quanh","Viết ra điều mình biết ơn hôm nay","Nghe nhạc nhẹ nhàng thư giãn","Dành thời gian không làm gì cả"],partner:["Cùng tận hưởng sự yên bình bên nhau","Không làm xáo trộn không khí nhẹ nhàng này","Rủ cô ấy đi dạo thư thái cùng","Pha trà hoặc cà phê cùng thưởng thức","Ngồi cạnh đọc sách hoặc nghe nhạc cùng","Trò chuyện nhẹ nhàng không áp lực","Cùng ngắm hoàng hôn hoặc bầu trời","Giữ không gian yên tĩnh cho cả hai"]}},
+        "khac":{"all":{self:["Tự do nói lên cảm xúc của bản thân","Viết ra điều bạn đang cảm nhận để hiểu rõ hơn"],partner:["Lắng nghe và thấu hiểu điều cô ấy chia sẻ","Hỏi thêm để hiểu rõ cảm xúc thật của cô ấy"]}}
     };
     function selectAdvancedMood(moodId){currentSelectedMood=moodId;document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector(`.mood-btn[data-mood="${moodId}"]`);if(btn)btn.classList.add('active');renderAdvancedTherapy();}
-    function renderAdvancedTherapy(){if(!currentSelectedMood)return;const sc=document.getElementById('mood-therapy-self'),pc=document.getElementById('mood-therapy-partner');sc.innerHTML="";pc.innerHTML="";const reason=document.getElementById('mood-reason-dropdown').value;const moodData=moodDatabase[currentSelectedMood]||moodDatabase["vui"];const data=moodData[reason]||(moodData["all"]||moodDatabase["vui"]["all"]);data.self.forEach(txt=>{sc.innerHTML+=`<div class="row-item"><span>🧘‍♀️ ${txt}</span><input type="checkbox" class="custom-cb"></div>`;});data.partner.forEach(txt=>{pc.innerHTML+=`<div class="row-item"><span style="color:var(--love)">🤗 ${txt}</span><input type="checkbox" class="custom-cb"></div>`;});}
-    function submitMoodReport(){alert(`🚀 Đã đồng bộ trạng thái cảm xúc [${currentSelectedMood.toUpperCase()}] lên hệ thống đôi!`);}
+    function renderAdvancedTherapy(){
+        if(!currentSelectedMood)return;
+        const sc=document.getElementById('mood-therapy-self'),pc=document.getElementById('mood-therapy-partner');
+        sc.innerHTML="";pc.innerHTML="";
+        const reason=document.getElementById('mood-reason-dropdown').value;
+        const moodData=moodDatabase[currentSelectedMood]||moodDatabase["vui"];
+        const data=moodData[reason]||(moodData["all"]||moodDatabase["vui"]["all"]);
+
+        if(currentSelectedMood==='khac'){
+            sc.innerHTML=`<div class="row-item" style="flex-direction:column;align-items:stretch;gap:8px">
+                <span>🧘‍♀️ Hãy tự ghi lại cảm xúc hiện tại của bạn:</span>
+                <textarea id="mood-custom-self-text" class="select-style" style="min-height:80px;width:100%" placeholder="Mình đang cảm thấy..."></textarea>
+            </div>`;
+        }else{
+            data.self.forEach(txt=>{sc.innerHTML+=`<div class="row-item"><span>🧘‍♀️ ${txt}</span><input type="checkbox" class="custom-cb"></div>`;});
+        }
+
+        data.partner.forEach(txt=>{pc.innerHTML+=`<div class="row-item"><span style="color:var(--love)">🤗 ${txt}</span><input type="checkbox" class="custom-cb"></div>`;});
+        pc.innerHTML+=`<div class="row-item" style="flex-direction:column;align-items:stretch;gap:8px">
+            <span style="color:var(--love)">🤗 Khác (tự ghi điều bạn muốn đối phương làm):</span>
+            <input type="text" id="mood-partner-other-input" class="select-style" placeholder="Ví dụ: chỉ cần nhắn tin hỏi han thường xuyên hơn...">
+        </div>`;
+    }
+    function submitMoodReport(){
+        if(currentSelectedMood==='khac'){
+            const txt=(document.getElementById('mood-custom-self-text')||{}).value||"";
+            alert(`🚀 Đã đồng bộ trạng thái cảm xúc [KHÁC: ${txt||"chưa ghi chú"}] lên hệ thống đôi!`);
+        }else{
+            alert(`🚀 Đã đồng bộ trạng thái cảm xúc [${currentSelectedMood.toUpperCase()}] lên hệ thống đôi!`);
+        }
+    }
 
     // ===== Y TẾ =====
     const emergencyDatabase={"dau-xuong":"Chườm lạnh 15 phút, hạn chế vận động mạnh.","dau-da-day":"Uống 1 cốc nước ấm pha mật ong tinh khiết, nằm nghiêng bên trái.","dau-co":"Ngâm nước ấm, mát-xa nhẹ xoa bóp cơ học.","sot-cao":"Lau người bằng khăn ấm vùng nách/bẹn. Nếu >38.5°C dùng hạ sốt.","cam-cum":"Súc họng nước muối sinh lý, bổ sung vitamin C ấm.","dau-dau":"Nghỉ ngơi phòng tối, bấm huyệt thái dương lỏng.","ha-duong-huyet":"Ăn ngay 1-2 viên kẹo ngọt hoặc uống nước đường ấm.","di-ung":"Dừng tiếp xúc nguồn dị ứng, uống nhiều nước thanh lọc cơ thể.","dau-rang":"Súc miệng nước muối đặc, chườm đá phía ngoài má giảm sưng buốt."};
@@ -1835,6 +1880,10 @@
         if(pageId==='page-eat'){payload["Khung giờ đang xem"]=currentTimeFilter.toUpperCase();payload["Vùng miền đang xem"]=currentRegion.toUpperCase();}
         if(pageId==='page-mood'){payload["Trạng thái cảm xúc"]=currentSelectedMood.toUpperCase();payload["Nguyên nhân cốt lõi"]=document.getElementById('mood-reason-dropdown').value;}
         targetPage.querySelectorAll('input[type="checkbox"]').forEach((cb,i)=>{let label=cb.hasAttribute('data-name')?cb.getAttribute('data-name'):(cb.getAttribute('data-category')?`[${cb.getAttribute('data-category')}] `:'')+(cb.parentElement.innerText.trim()||`Lựa chọn ${i+1}`);if(cb.checked)payload[label]="ĐANG ĐƯỢC CHỌN ✅";});
+        const partnerOtherInput=targetPage.querySelector('#mood-partner-other-input');
+        if(partnerOtherInput&&partnerOtherInput.value.trim())payload["[Khác] Đối phương cần làm"]=partnerOtherInput.value.trim();
+        const selfCustomMood=targetPage.querySelector('#mood-custom-self-text');
+        if(selfCustomMood&&selfCustomMood.value.trim())payload["[Khác] Tâm trạng tự ghi"]=selfCustomMood.value.trim();
         fetch(CLOUD_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)}).then(()=>{alert(`📲 Gói dữ liệu [${formTitle}] đã được gửi thành công về Gmail!`);}).catch(()=>{alert("Lỗi kết nối mạng, vui lòng thử lại.");}).finally(()=>{actionButton.innerText=originalText;actionButton.disabled=false;});
     }
 

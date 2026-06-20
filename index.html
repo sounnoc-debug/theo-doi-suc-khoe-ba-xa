@@ -751,6 +751,57 @@
             width: 100%; max-width: 180px; aspect-ratio: 1/1; object-fit: cover;
             border-radius: var(--radius-sm); margin: 0 auto 14px; display: block;
         }
+        .album-modal-song {
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            cursor: pointer;
+        }
+        .album-modal-song .audio-title { margin-bottom: 0; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .album-modal-song.playing { border-color: var(--primary); background: var(--primary-light); }
+        .album-song-play-btn {
+            flex-shrink: 0; border: none; border-radius: 100px;
+            background: var(--primary); color: #fff; font-size: 11px; font-weight: 800;
+            padding: 6px 12px; cursor: pointer;
+        }
+        .album-modal-song.playing .album-song-play-btn { background: var(--love); }
+
+        /* ===== MINI PLAYER (nền nhạc) ===== */
+        .mini-player {
+            position: fixed; left: 50%; bottom: 14px;
+            transform: translateX(-50%) translateY(130%);
+            width: calc(100% - 24px); max-width: 536px;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 18px; box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 10px; z-index: 500;
+            transition: transform 0.32s ease;
+        }
+        .mini-player.active { transform: translateX(-50%) translateY(0); }
+        .mini-player-cover {
+            width: 42px; height: 42px; border-radius: 10px; object-fit: cover;
+            background: var(--primary-light); flex-shrink: 0; display: none;
+        }
+        .mini-player-cover-fallback {
+            width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+            background: var(--primary-light); display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .mini-player-info { flex: 1; min-width: 0; }
+        .mini-player-title {
+            font-size: 12px; font-weight: 800; color: var(--text-main);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .mini-player-album {
+            font-size: 10px; font-weight: 600; color: var(--text-sub);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px;
+        }
+        .mini-player-controls { display: flex; gap: 5px; flex-shrink: 0; }
+        .mini-player-controls button {
+            width: 32px; height: 32px; border-radius: 50%; border: none;
+            background: var(--primary-light); color: var(--primary); font-size: 13px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .mini-player-controls button#mini-player-playbtn { background: var(--primary); color: #fff; font-size: 14px; }
 
         .media-slot {
             border: 1.5px dashed rgba(108,61,232,0.18);
@@ -1046,6 +1097,22 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <canvas id="particles-canvas"></canvas>
+
+<!-- MINI PLAYER NỀN NHẠC (giữ phát khi khoá màn hình / chuyển app) -->
+<div id="mini-player" class="mini-player">
+    <img id="mini-player-cover" class="mini-player-cover" src="" alt="">
+    <div id="mini-player-cover-fallback" class="mini-player-cover-fallback">💿</div>
+    <div class="mini-player-info">
+        <div class="mini-player-title" id="mini-player-title">—</div>
+        <div class="mini-player-album" id="mini-player-album">—</div>
+    </div>
+    <div class="mini-player-controls">
+        <button onclick="playPrevSong()" aria-label="Bài trước">⏮</button>
+        <button id="mini-player-playbtn" onclick="toggleMiniPlayerPlayPause()" aria-label="Phát/Tạm dừng">▶</button>
+        <button onclick="playNextSong()" aria-label="Bài tiếp theo">⏭</button>
+    </div>
+</div>
+<audio id="global-audio-player" preload="metadata"></audio>
 
 <!-- MODAL -->
 <div id="emergency-modal" class="health-modal">
@@ -1565,8 +1632,8 @@
             songs: [
                 { src: "usuk.mp3", title: "I love You so" }, { src: "usuk1.mp3", title: "Die with a smile" },  { src: "usuk2.mp3", title: "Take me to church" },
                 ]
-        },
                 // Thêm bài hát mới: { src: "ten-file.mp3", title: "Tên bài hát" },
+        },
         {
             id: "album-2",
             title: "Album DojaCat",
@@ -1633,7 +1700,6 @@
         },
         // Thêm album mới: { id: "album-2", title: "Tên album", cover: "anh-bia2.jpg", songs: [...] },
     ];
-
     // ── THƯ SỰ KIỆN (đọc trong app, tự cập nhật từ Google Sheet) ──
     // Bước 1: Tạo Google Sheet (xem file HUONG-DAN-THU-SU-KIEN.txt trong thư mục dự án)
     // Bước 2: Dán ID Sheet vào EVENT_LETTERS_SHEET_ID (để trống = dùng danh sách bên dưới)
@@ -1841,11 +1907,87 @@
         document.getElementById('modal-title-target').innerHTML=`🎵 ${escapeHtml(album.title||'Album')}`;
         const coverHtml=album.cover?`<img class="album-modal-cover" src="${album.cover}" alt="${escapeHtml(album.title||'Album')}" onerror="this.style.display='none'">`:'';
         const songsHtml=songs.length
-            ? songs.map(s=>`<div class="album-modal-song"><div class="audio-title">🎵 ${escapeHtml(s.title||'Bài hát')}</div><audio controls preload="metadata"><source src="${s.src}"></audio></div>`).join('')
+            ? songs.map((s,idx)=>`<div class="album-modal-song${currentAlbumId===album.id&&currentSongIndex===idx?' playing':''}" id="song-row-${album.id}-${idx}" onclick="playAlbumSong('${album.id}',${idx})">
+                <div class="audio-title">🎵 ${escapeHtml(s.title||'Bài hát')}</div>
+                <button class="album-song-play-btn" onclick="event.stopPropagation();playAlbumSong('${album.id}',${idx})">${currentAlbumId===album.id&&currentSongIndex===idx&&!globalAudio.paused?'⏸ Đang phát':'▶ Phát'}</button>
+              </div>`).join('')
             : `<div class="home-empty-note">Album chưa có bài hát. Thêm vào mảng <strong>songs</strong> của album này trong HOME_MUSIC_ALBUMS.</div>`;
         document.getElementById('modal-body-target').innerHTML=`${coverHtml}${songsHtml}`;
         document.getElementById('emergency-modal').style.display='flex';
     }
+
+    // ===== TRÌNH PHÁT NHẠC NỀN (Media Session API) =====
+    let currentAlbumId=null, currentSongIndex=-1;
+    const globalAudio=document.getElementById('global-audio-player');
+
+    function playAlbumSong(albumId,idx){
+        const album=HOME_MUSIC_ALBUMS.find(a=>a.id===albumId);
+        if(!album||!album.songs||!album.songs[idx])return;
+        const song=album.songs[idx];
+        const sameTrack=(currentAlbumId===albumId&&currentSongIndex===idx);
+        currentAlbumId=albumId;currentSongIndex=idx;
+        if(!sameTrack||!globalAudio.src||!globalAudio.src.endsWith(song.src)){
+            globalAudio.src=song.src;
+        }
+        globalAudio.play().catch(e=>console.log('Không thể tự phát (cần tương tác trước):',e));
+        updateMiniPlayerUI(album,song);
+        setupMediaSession(album,song);
+        const modalOpen=document.getElementById('emergency-modal').style.display==='flex';
+        if(modalOpen)openMusicAlbum(albumId);
+    }
+    function updateMiniPlayerUI(album,song){
+        const player=document.getElementById('mini-player');
+        player.classList.add('active');
+        document.getElementById('mini-player-title').innerText=song.title||'Bài hát';
+        document.getElementById('mini-player-album').innerText=album.title||'Album';
+        const cover=document.getElementById('mini-player-cover');
+        const fallback=document.getElementById('mini-player-cover-fallback');
+        if(album.cover){cover.src=album.cover;cover.style.display='block';fallback.style.display='none';cover.onerror=()=>{cover.style.display='none';fallback.style.display='flex';};}
+        else{cover.style.display='none';fallback.style.display='flex';}
+    }
+    function toggleMiniPlayerPlayPause(){
+        if(!globalAudio.src)return;
+        if(globalAudio.paused)globalAudio.play();else globalAudio.pause();
+    }
+    function playNextSong(){
+        const album=HOME_MUSIC_ALBUMS.find(a=>a.id===currentAlbumId);
+        if(!album)return;
+        const songs=album.songs||[];
+        if(currentSongIndex<songs.length-1)playAlbumSong(currentAlbumId,currentSongIndex+1);
+    }
+    function playPrevSong(){
+        const album=HOME_MUSIC_ALBUMS.find(a=>a.id===currentAlbumId);
+        if(!album)return;
+        if(currentSongIndex>0)playAlbumSong(currentAlbumId,currentSongIndex-1);
+    }
+    function setupMediaSession(album,song){
+        if(!('mediaSession' in navigator))return;
+        try{
+            navigator.mediaSession.metadata=new MediaMetadata({
+                title:song.title||'Bài hát',
+                artist:'Hệ Thống Chăm Sóc Bà Xã 💑',
+                album:album.title||'Album nhạc',
+                artwork:album.cover?[{src:album.cover,sizes:'512x512',type:'image/jpeg'}]:[]
+            });
+            navigator.mediaSession.setActionHandler('play',()=>globalAudio.play());
+            navigator.mediaSession.setActionHandler('pause',()=>globalAudio.pause());
+            navigator.mediaSession.setActionHandler('previoustrack',()=>playPrevSong());
+            navigator.mediaSession.setActionHandler('nexttrack',()=>playNextSong());
+        }catch(e){console.log('Media Session lỗi:',e);}
+    }
+    globalAudio.addEventListener('play',()=>{
+        const btn=document.getElementById('mini-player-playbtn');if(btn)btn.innerText='⏸';
+        if('mediaSession' in navigator)navigator.mediaSession.playbackState='playing';
+        const row=document.getElementById(`song-row-${currentAlbumId}-${currentSongIndex}`);
+        if(row){const b=row.querySelector('.album-song-play-btn');if(b)b.innerText='⏸ Đang phát';row.classList.add('playing');}
+    });
+    globalAudio.addEventListener('pause',()=>{
+        const btn=document.getElementById('mini-player-playbtn');if(btn)btn.innerText='▶';
+        if('mediaSession' in navigator)navigator.mediaSession.playbackState='paused';
+        const row=document.getElementById(`song-row-${currentAlbumId}-${currentSongIndex}`);
+        if(row){const b=row.querySelector('.album-song-play-btn');if(b)b.innerText='▶ Phát';}
+    });
+    globalAudio.addEventListener('ended',()=>{playNextSong();});
     function filterHomeContent(query){
         const q=(query||'').trim().toLowerCase();
         const items=document.querySelectorAll('#page-home .home-search-item');

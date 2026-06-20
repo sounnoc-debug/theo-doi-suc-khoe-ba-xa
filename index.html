@@ -688,6 +688,70 @@
 
         .media-grid-audio { display: flex; flex-direction: column; gap: 10px; }
 
+        .media-grid-albums {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        @media (min-width: 480px) { .media-grid-albums { grid-template-columns: repeat(3, 1fr); } }
+
+        .album-card {
+            position: relative;
+            aspect-ratio: 1/1;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--primary-light), var(--love-light));
+            border: 1.5px solid rgba(108,61,232,0.14);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .album-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .album-card .album-cover {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .album-card .album-cover-fallback {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 34px; opacity: 0.5;
+        }
+        .album-card .album-overlay {
+            position: absolute; left: 0; right: 0; bottom: 0;
+            padding: 8px 9px 7px;
+            background: linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.78) 100%);
+        }
+        .album-card .album-title {
+            color: #fff; font-size: 11.5px; font-weight: 800;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .album-card .album-count {
+            color: rgba(255,255,255,0.85); font-size: 9.5px; font-weight: 700;
+            margin-top: 1px;
+        }
+        .album-card .album-play-badge {
+            position: absolute; top: 7px; right: 7px;
+            width: 22px; height: 22px; border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px;
+        }
+
+        .album-modal-song {
+            padding: 10px 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.6);
+            margin-bottom: 9px;
+        }
+        .album-modal-song .audio-title {
+            font-size: 12px; font-weight: 800; color: #334155; margin-bottom: 6px;
+        }
+        .album-modal-song audio { width: 100%; height: 36px; }
+        .album-modal-cover {
+            width: 100%; max-width: 180px; aspect-ratio: 1/1; object-fit: cover;
+            border-radius: var(--radius-sm); margin: 0 auto 14px; display: block;
+        }
+
         .media-slot {
             border: 1.5px dashed rgba(108,61,232,0.18);
             border-radius: var(--radius-sm);
@@ -1125,10 +1189,10 @@
 
         <div class="home-section-block" id="home-audio-section">
             <div class="home-section-head">
-                <span class="label">🎵 Âm thanh</span>
-                <span class="count" id="home-audio-count">0 mục</span>
+                <span class="label">🎵 Album Nhạc</span>
+                <span class="count" id="home-audio-count">0 album</span>
             </div>
-            <div class="media-grid-audio" id="home-audio-grid"></div>
+            <div class="media-grid-albums" id="home-audio-grid"></div>
         </div>
 
         <div class="home-section-block" id="home-events-section">
@@ -1485,13 +1549,81 @@
     // ⚙️ CẤU HÌNH TRANG CHỦ — Bạn tự thêm nội dung tại đây
     // ═══════════════════════════════════════════════════════════════
     const HOME_MEDIA_IMAGES = [
-        { src: "anh-ky-niem.jpg", alt: "Mô tả", title: "First Date" }, { src: "anh-ky-niem1.jpg", alt: "Mô tả", title: "Doremon" }, { src: "anh-ky-niem2.jpg", alt: "Mô tả", title: "Thằng cuộc thi cùng giải cuộc đời" }, { src: "anh-ky-niem3.jpg", alt: "Mô tả", title: "Hehe" }, 
+        { src: "anh-ky-niem.jpg", alt: "Mô tả", title: "First Date" }, { src: "anh-ky-niem1.jpg", alt: "Mô tả", title: "Doraemon" }, { src: "anh-ky-niem2.jpg", alt: "Mô tả", title: "Thắng cuộc thi nhận giải cuộc đời" }, { src: "anh-ky-niem3.jpg", alt: "Mô tả", title: "buổi đi chơi đầu tiên" }, 
     ];
     const HOME_MEDIA_VIDEOS = [
-        { src: "video.mp4", poster: "assets/poster.jpg", title: "Video kỷ niệm" }, { src: "video1.mp4", poster: "assets/poster.jpg", title: "Thiếu nữ lực điền với cây đàn Guitar" }, { src: "video2.mp4", poster: "assets/poster.jpg", title: "HiHi" }, { src: "video3.mp4", poster: "assets/poster.jpg", title: "HaHa" },
+        { src: "video.mp4", poster: "assets/poster.jpg", title: "Video kỷ niệm" }, { src: "video1.mp4", poster: "assets/poster.jpg", title: "Thiếu nữ lực điền bên cây Guitar" }, { src: "video2.mp4", poster: "assets/poster.jpg", title: "Buổi Workshop bất ổn" }, { src: "video1.mp4", poster: "assets/poster.jpg", title: "Lời hứa vĩnh cửu" }, 
     ];
-    const HOME_MEDIA_AUDIO = [
-        { src: "nhac.mp3", title: "Bài hát yêu thích" },
+    // ── ALBUM NHẠC — tự thêm album, đổi ảnh bìa, thêm bài hát tại đây ──
+    // Mỗi album: id (duy nhất), title (tên album), cover (đường dẫn ảnh bìa, để "" nếu chưa có),
+    // songs: danh sách bài hát [{ src: "đường-dẫn-file.mp3", title: "Tên bài hát" }, ...]
+    const HOME_MUSIC_ALBUMS = [
+        {
+            id: "album-1",
+            title: "Album USUK",
+            cover: "album-cover1.jpg",
+            songs: [
+                { src: "usuk.mp3", title: "I love You so" }, { src: "usuk1.mp3", title: "Die with a smile" },  { src: "usuk2.mp3", title: "Take me to church" },
+                ]
+                // Thêm bài hát mới: { src: "ten-file.mp3", title: "Tên bài hát" },
+        {
+            id: "album-2",
+            title: "Album DojaCat",
+            cover: "album-cover2.jpg",
+            songs: [
+                { src: "djcat.mp3", title: "Say So" }, { src: "djcat1.mp3", title: "Kiss me more" },
+                ]
+        {
+            id: "album-3",
+            title: "Album Ngot",
+            cover: "album-cover3.jpg",
+            songs: [
+                { src: "ngot.mp3", title: "Bartender" }, { src: "ngot1.mp3", title: "Đá Tan" }, { src: "ngot2.mp3", title: "Cho" }, { src: "ngot3.mp3", title: "Chuyển Kênh" }, 
+                ]
+        {
+            id: "album-4",
+            title: "Album Steven Universe",
+            cover: "album-cover4.jpg",
+            songs: [
+                { src: "su.mp3", title: "It's over isn't it" }, { src: "su1.mp3", title: "Escapism" },
+                ]
+        {
+            id: "album-5",
+            title: "Album Chillies",
+            cover: "album-cover5.jpg",
+            songs: [
+                { src: "chill.mp3", title: "Mascara" }, { src: "chill1.mp3", title: "Qua Khung Cửa Sổ" }, { src: "chill2.mp3", title: "Đại Lộ Mặt Trời" },
+                ]
+        {
+            id: "album-6",
+            title: "Album ThinhSuy",
+            cover: "album-cover6.jpg",
+            songs: [
+                { src: "ts.mp3", title: "Chuyện Rằng" }, { src: "ts1.mp3", title: "Tình Yêu Xanh Lá" },
+            ]
+        {
+            id: "album-7",
+            title: "Album Thang",
+            cover: "album-cover7.jpg",
+            songs: [
+                { src: "thang.mp3", title: "Gội Đầu" }, { src: "thang1.mp3", title: "Người Yêu Có Bạn Gái(xĐồng Lan)" }, 
+            ]
+        {
+            id: "album-8",
+            title: "Album LoL",
+            cover: "album-cover8.jpg",
+            songs: [
+                { src: "lol.mp3", title: "Ma Meilleure" }, { src: "lol1.mp3", title: "Enemy" }, 
+                ]
+        {
+            id: "album-9",
+            title: "Album Jazz",
+            cover: "album-cover9.jpg",
+            songs: [
+                { src: "jazz.mp3", title: "Sway" },
+                ]
+        },
+        // Thêm album mới: { id: "album-2", title: "Tên album", cover: "anh-bia2.jpg", songs: [...] },
     ];
 
     // ── THƯ SỰ KIỆN (đọc trong app, tự cập nhật từ Google Sheet) ──
@@ -1668,24 +1800,43 @@
     function renderHomeAudio(){
         const grid=document.getElementById('home-audio-grid');
         grid.innerHTML='';
-        const items=HOME_MEDIA_AUDIO.filter(i=>i&&i.src);
-        items.forEach(item=>{
+        const albums=HOME_MUSIC_ALBUMS.filter(a=>a&&a.title);
+        albums.forEach(album=>{
+            const songCount=(album.songs||[]).length;
             const el=document.createElement('div');
-            el.className='media-slot media-slot-audio home-search-item';
-            el.setAttribute('data-search',`${item.title||''} âm thanh audio`.toLowerCase());
-            el.innerHTML=`<div class="audio-title">🎵 ${item.title||'Âm thanh'}</div><audio controls preload="metadata"><source src="${item.src}"></audio>`;
+            el.className='album-card home-search-item';
+            el.setAttribute('data-search',`${album.title||''} album nhạc ${(album.songs||[]).map(s=>s.title||'').join(' ')}`.toLowerCase());
+            el.onclick=()=>openMusicAlbum(album.id);
+            el.innerHTML=`${album.cover?`<img class="album-cover" src="${album.cover}" alt="${escapeHtml(album.title||'Album')}" loading="lazy" onerror="this.style.display='none'">`:''}
+                <div class="album-cover-fallback">💿</div>
+                <span class="album-play-badge">▶</span>
+                <div class="album-overlay">
+                    <div class="album-title">${escapeHtml(album.title||'Album')}</div>
+                    <div class="album-count">${songCount} bài hát</div>
+                </div>`;
             grid.appendChild(el);
         });
-        const slots=items.length?0:HOME_PLACEHOLDER_SLOTS;
+        const slots=albums.length?0:HOME_PLACEHOLDER_SLOTS;
         for(let i=0;i<slots;i++){
             const ph=document.createElement('div');
-            ph.className='media-slot media-placeholder home-search-item';
-            ph.style.aspectRatio='auto';ph.style.padding='16px';
-            ph.setAttribute('data-search','âm thanh placeholder');
-            ph.innerHTML=`<span class="ph-icon">🎵</span><span class="ph-text">Thêm nhạc trong HOME_MEDIA_AUDIO</span>`;
+            ph.className='album-card media-placeholder home-search-item';
+            ph.setAttribute('data-search','album nhạc placeholder');
+            ph.innerHTML=`<span class="ph-icon">🎵</span><span class="ph-text">Thêm album trong HOME_MUSIC_ALBUMS</span>`;
             grid.appendChild(ph);
         }
-        document.getElementById('home-audio-count').innerText=`${items.length} mục`;
+        document.getElementById('home-audio-count').innerText=`${albums.length} album`;
+    }
+    function openMusicAlbum(albumId){
+        const album=HOME_MUSIC_ALBUMS.find(a=>a.id===albumId);
+        if(!album)return;
+        const songs=album.songs||[];
+        document.getElementById('modal-title-target').innerHTML=`🎵 ${escapeHtml(album.title||'Album')}`;
+        const coverHtml=album.cover?`<img class="album-modal-cover" src="${album.cover}" alt="${escapeHtml(album.title||'Album')}" onerror="this.style.display='none'">`:'';
+        const songsHtml=songs.length
+            ? songs.map(s=>`<div class="album-modal-song"><div class="audio-title">🎵 ${escapeHtml(s.title||'Bài hát')}</div><audio controls preload="metadata"><source src="${s.src}"></audio></div>`).join('')
+            : `<div class="home-empty-note">Album chưa có bài hát. Thêm vào mảng <strong>songs</strong> của album này trong HOME_MUSIC_ALBUMS.</div>`;
+        document.getElementById('modal-body-target').innerHTML=`${coverHtml}${songsHtml}`;
+        document.getElementById('emergency-modal').style.display='flex';
     }
     function filterHomeContent(query){
         const q=(query||'').trim().toLowerCase();

@@ -1290,7 +1290,7 @@
     <div class="drawer-header">
         <div>
             <div class="drawer-header-title">💑 Menu</div>
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);margin-top:4px;letter-spacing:1px">Diary Update · v1.4</div>
+            <div style="font-size:10px;font-weight:700;color:var(--text-sub);margin-top:4px;letter-spacing:1px">AURA MOBILE · v1.2</div>
         </div>
         <button class="drawer-close-btn" onclick="closeSideMenu()" aria-label="Đóng menu">✕</button>
     </div>
@@ -1365,7 +1365,7 @@
             </button>
             <div class="home-top-meta">
                 <div class="home-mini-title">Hệ Thống Chăm Sóc Bà Xã</div>
-                <div class="home-mini-sub">Diary Update · v1.4</div>
+                <div class="home-mini-sub">Aura Mobile · v1.2</div>
             </div>
             <div class="clock-pill" style="margin-top:0;flex-shrink:0">🕐 <span class="clock-display"></span></div>
         </div>
@@ -1763,7 +1763,7 @@
             <div class="diary-hero-sub">Viết chữ, vẽ tay, chèn ảnh & video — tất cả trong một trang nhật ký</div>
         </div>
         <button class="btn-diary-new" onclick="openDiaryEditor()">✍️ Viết Nhật Ký Mới</button>
-        <div class="diary-cloud-note">☁️ Ảnh/video sẽ được lưu trữ &amp; trích xuất từ bộ nhớ đám mây miễn phí (Cloudinary). <span id="diary-drive-status">Chưa cấu hình Cloudinary — đang lưu tạm trên trình duyệt.</span></div>
+        <div class="diary-cloud-note">☁️ Ảnh/video sẽ được lưu trữ &amp; trích xuất từ bộ nhớ đám mây miễn phí (Cloudinary). Mỗi nhật ký sau khi lưu sẽ tự động được gửi một bản về Gmail của bạn. <span id="diary-drive-status">Chưa cấu hình Cloudinary — đang lưu tạm trên trình duyệt.</span></div>
         <div id="diary-entries-list" class="diary-entries-list"></div>
     </div>
 
@@ -1895,7 +1895,7 @@
             title: "Album USUK",
             cover: "album-cover1.jpg",
             songs: [
-                { src: "usuk.mp3", title: "I love You so" }, { src: "usuk1.mp3", title: "Die with a smile" },  { src: "usuk2.mp3", title: "Take me to church" },
+                { src: "usuk.mp3", title: "I love You so" }, { src: "usuk1.mp3", title: "Die with a smile" },  { src: "usuk2.mp3", title: "Take me to church" },  { src: "usuk3.mp3", title: "Beanie" },  { src: "usuk4.mp3", title: "Dracula" },  { src: "usuk5.mp3", title: "Babydoll" },  { src: "usuk6.mp3", title: "Wait a minute" },
                 ]
                 // Thêm bài hát mới: { src: "ten-file.mp3", title: "Tên bài hát" },
         },
@@ -1920,7 +1920,7 @@
             title: "Album Steven Universe",
             cover: "album-cover4.jpg",
             songs: [
-                { src: "su.mp3", title: "It's over isn't it" }, { src: "su1.mp3", title: "Escapism" },
+                { src: "su.mp3", title: "It's over isn't it" }, { src: "su1.mp3", title: "Escapism" }, { src: "su2.mp3", title: "Peace And Love(On The Planet Earth)" }, { src: "su3.mp3", title: "Stronger Than You" }, { src: "su4.mp3", title: "Change" },
                 ]
         },
         {
@@ -1978,9 +1978,17 @@
             id: "sinh-nhat",
             icon: "🎂",
             title: "Sinh nhật sắp tới",
-            subtitle: "Nhấn để đọc thư từ anh",
+            subtitle: "Nhấn để đọc tiêu đề",
             date: "06/07/2026",
             letterBody: "Em yêu,\n\nSắp tới là sinh nhật anh. Anh đã chuẩn bị một vài điều bất ngờ nhỏ — em cứ đọc thư này và chờ nhé.\n\nYêu em nhiều,\nAnh 💑"
+        },
+        {
+            id: "dam-gio",
+            icon: "🥀",
+            title: "Anh được mời về nhà em ăn",
+            subtitle: "Nhấn để đọc tiêu đề",
+            date: "30/06/2026",
+            letterBody: "Em yêu,\n\nLần đầu tiên được nhà người khác mời qua ăn đám giỗ, anh háo hức lắm nhưng cũng không biết nên hành xử như thế nào nên lỡ có gì không phải mong em bỏ qua và chỉ bảo anh\n\nYêu em nhiều,\nAnh 💑"
         },
     ];
     const HOME_PLACEHOLDER_SLOTS = 2; // số ô trống viền kẻ khi chưa thêm media
@@ -2426,7 +2434,7 @@
     }
 
     // ===== TÀI CHÍNH =====
-    let balanceBoy=750000,balanceGirl=500000;
+    let balanceBoy=0,balanceGirl=0;
     let BOY_BANK_LINK={shortName:"mbbank",accountNumber:"0987654321",accountName:"NGUYEN VAN A",customQrUrl:""};
     function saveBankConfiguration(){BOY_BANK_LINK.shortName=document.getElementById('cfg-bank-code').value.trim().toLowerCase();BOY_BANK_LINK.accountNumber=document.getElementById('cfg-bank-number').value.trim();BOY_BANK_LINK.accountName=document.getElementById('cfg-bank-name').value.trim().toUpperCase();alert("⚙️ Cập nhật QR hệ thống thành công!");}
     function updateWalletDisplay(){const tot=balanceBoy+balanceGirl;document.getElementById('wallet-boy-val').innerText=`${balanceBoy.toLocaleString('vi-VN')} đ`;document.getElementById('wallet-girl-val').innerText=`${balanceGirl.toLocaleString('vi-VN')} đ`;document.getElementById('wallet-balance-val').innerText=`${tot.toLocaleString('vi-VN')} đ`;}
@@ -2436,7 +2444,7 @@
 
     // ===== GỬI EMAIL =====
     function sendSingleSection(pageId,formTitle){
-        if(!CLOUD_SCRIPT_URL||CLOUD_SCRIPT_URL.includes("DÁN_URL_APPS_SCRIPT")){alert("⚠️ Vui lòng cấu hình URL Google Apps Script trước khi gửi!");return;}
+        if(!CLOUD_SCRIPT_URL||CLOUD_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec")){alert("⚠️ Vui lòng cấu hình URL Google Apps Script trước khi gửi!");return;}
         const targetPage=document.getElementById(pageId);
         const actionButton=targetPage.querySelector('.section-send-btn');
         const originalText=actionButton.innerText;
@@ -2466,8 +2474,8 @@
     //    Copy tên preset đó, dán vào CLOUDINARY_UPLOAD_PRESET bên dưới.
     // Lưu ý: gói miễn phí giới hạn ~100MB/video khi upload unsigned (đủ cho hầu hết video nhật ký thông thường,
     // nếu cần đúng 1GB/video cần nâng cấp gói trả phí của Cloudinary hoặc dùng giải pháp backend riêng).
-    const CLOUDINARY_CLOUD_NAME = ""; // <-- dán "Cloud name" của bạn vào đây
-    const CLOUDINARY_UPLOAD_PRESET = ""; // <-- dán tên unsigned upload preset của bạn vào đây
+    const CLOUDINARY_CLOUD_NAME = "dbwadfqvh"; // <-- dán "Cloud name" của bạn vào đây
+    const CLOUDINARY_UPLOAD_PRESET = "diaryofus"; // <-- dán tên unsigned upload preset của bạn vào đây
     async function uploadToDrive(file){
         if(!CLOUDINARY_CLOUD_NAME||!CLOUDINARY_UPLOAD_PRESET){
             // Chưa cấu hình Cloudinary → tạm lưu trong phiên trình duyệt để vẫn dùng thử được ngay.
@@ -2700,7 +2708,7 @@
     }
     function removeDiaryVideo(id){diaryVideos=diaryVideos.filter(v=>v.id!==id);renderDiaryVideos();}
 
-    // ── LƯU & DANH SÁCH NHẬT KÝ (lưu trên trình duyệt — sẵn sàng nối Google Drive) ──
+    // ── LƯU & DANH SÁCH NHẬT KÝ (lưu trên trình duyệt + tự gửi qua Gmail) ──
     function getDiaryEntries(){try{return JSON.parse(localStorage.getItem('diary_entries')||'[]');}catch(e){return [];}}
     function saveDiaryEntries(list){localStorage.setItem('diary_entries',JSON.stringify(list));}
     function saveDiaryEntry(){
@@ -2709,9 +2717,36 @@
         const entries=getDiaryEntries();
         entries.unshift({id:`entry-${Date.now()}`,title,content,videos:diaryVideos,date:new Date().toLocaleString('vi-VN')});
         saveDiaryEntries(entries);
-        alert('💾 Đã lưu nhật ký!');
         navigateTo('page-diary');
         renderDiaryList();
+        sendDiaryToGmail(title,content,diaryVideos);
+    }
+    function sendDiaryToGmail(title,contentHtml,videos){
+        if(!CLOUD_SCRIPT_URL||CLOUD_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec")){
+            alert('💾 Đã lưu nhật ký trên trình duyệt này! (Chưa cấu hình Apps Script nên chưa gửi được qua Gmail)');
+            return;
+        }
+        const tmp=document.createElement('div');tmp.innerHTML=contentHtml;
+        const plainText=(tmp.innerText||tmp.textContent||'').trim();
+        const allImgs=Array.from(tmp.querySelectorAll('img'));
+        const hostedImgUrls=allImgs.map(img=>img.getAttribute('src')||'').filter(src=>src.startsWith('http'));
+        const localImgCount=allImgs.length-hostedImgUrls.length;
+        const hostedVideoUrls=(videos||[]).filter(v=>v.url&&v.url.startsWith('http')).map(v=>`${v.name}: ${v.url}`);
+        const localVideoCount=(videos||[]).length-hostedVideoUrls.length;
+
+        const payload={
+            form_type:`📔 Nhật Ký Mới: ${title}`,
+            "Thời gian viết":new Date().toLocaleString('vi-VN'),
+            "Nội dung chữ":plainText||'(không có nội dung chữ, có thể là nhật ký chỉ có ảnh/vẽ tay)',
+        };
+        if(hostedImgUrls.length)payload["🖼️ Hình ảnh (link Cloudinary)"]=hostedImgUrls.join('\n');
+        if(localImgCount>0)payload["⚠️ Ghi chú ảnh"]=`${localImgCount} ảnh đang lưu tạm trên trình duyệt — cấu hình Cloudinary (CLOUDINARY_CLOUD_NAME/CLOUDINARY_UPLOAD_PRESET) để gửi được link ảnh qua email.`;
+        if(hostedVideoUrls.length)payload["🎬 Video (link Cloudinary)"]=hostedVideoUrls.join('\n');
+        if(localVideoCount>0)payload["⚠️ Ghi chú video"]=`${localVideoCount} video đang lưu tạm trên trình duyệt — cấu hình Cloudinary để gửi được link video qua email.`;
+
+        fetch(CLOUD_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+            .then(()=>{alert('💾 Đã lưu nhật ký và gửi về Gmail của bạn thành công! 💌');})
+            .catch(()=>{alert('💾 Đã lưu nhật ký trên trình duyệt, nhưng gửi qua Gmail bị lỗi mạng — vui lòng thử lại sau.');});
     }
     function renderDiaryList(){
         const list=getDiaryEntries();

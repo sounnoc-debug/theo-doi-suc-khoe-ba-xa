@@ -1978,17 +1978,9 @@
             id: "sinh-nhat",
             icon: "🎂",
             title: "Sinh nhật sắp tới",
-            subtitle: "Nhấn để đọc tiêu đề",
+            subtitle: "Nhấn để đọc thư từ anh",
             date: "06/07/2026",
             letterBody: "Em yêu,\n\nSắp tới là sinh nhật anh. Anh đã chuẩn bị một vài điều bất ngờ nhỏ — em cứ đọc thư này và chờ nhé.\n\nYêu em nhiều,\nAnh 💑"
-        },
-        {
-            id: "dam-gio",
-            icon: "🥀",
-            title: "Anh được mời về nhà em ăn",
-            subtitle: "Nhấn để đọc tiêu đề",
-            date: "30/06/2026",
-            letterBody: "Em yêu,\n\nLần đầu tiên được nhà người khác mời qua ăn đám giỗ, anh háo hức lắm nhưng cũng không biết nên hành xử như thế nào nên lỡ có gì không phải mong em bỏ qua và chỉ bảo anh\n\nYêu em nhiều,\nAnh 💑"
         },
     ];
     const HOME_PLACEHOLDER_SLOTS = 2; // số ô trống viền kẻ khi chưa thêm media
@@ -2123,15 +2115,32 @@
         }
         document.getElementById('home-images-count').innerText=`${items.length} mục`;
     }
+    // Cài đặt do người dùng tự chỉnh (thumbnail/chất lượng) — lưu trên trình duyệt, ưu tiên hơn cấu hình gốc ở trên
+    function getHomeVideoSettings(){try{return JSON.parse(localStorage.getItem('home_video_settings')||'{}');}catch(e){return{};}}
+    function saveHomeVideoSettings(s){localStorage.setItem('home_video_settings',JSON.stringify(s));}
     function renderHomeVideos(){
         const grid=document.getElementById('home-videos-grid');
         grid.innerHTML='';
         const items=HOME_MEDIA_VIDEOS.filter(i=>i&&i.src);
-        items.forEach(item=>{
+        const settings=getHomeVideoSettings();
+        items.forEach((item,idx)=>{
+            const override=settings[item.src]||{};
+            const poster=override.poster||item.poster||'';
+            const quality=override.quality||'auto';
             const el=document.createElement('div');
             el.className='media-slot home-search-item';
             el.setAttribute('data-search',`${item.title||''} video`.toLowerCase());
-            el.innerHTML=`<video controls preload="metadata"${item.poster?` poster="${item.poster}"`:''}><source src="${item.src}"></video>${item.title?`<div class="media-slot-caption">${item.title}</div>`:''}`;
+            el.innerHTML=`<video controls preload="metadata"${poster?` poster="${poster}"`:''}><source src="${item.src}"></video>${item.title?`<div class="media-slot-caption">${item.title}</div>`:''}
+                <div class="diary-video-controls">
+                    <select onchange="setHomeVideoQuality('${item.src}',this.value)" title="Chất lượng phát">
+                        <option value="auto" ${quality==='auto'?'selected':''}>Tự động</option>
+                        <option value="sd" ${quality==='sd'?'selected':''}>SD 480p</option>
+                        <option value="hd" ${quality==='hd'?'selected':''}>HD 720p</option>
+                        <option value="fullhd" ${quality==='fullhd'?'selected':''}>Full HD 1080p</option>
+                    </select>
+                    <button onclick="triggerHomeThumbUpload(${idx})">⚙️ Settings video</button>
+                    <input type="file" accept="image/*" class="diary-thumb-input" id="home-thumb-input-${idx}" onchange="handleHomeThumbUpload('${item.src}',event)">
+                </div>`;
             grid.appendChild(el);
         });
         const slots=items.length?0:HOME_PLACEHOLDER_SLOTS;
@@ -2143,6 +2152,23 @@
             grid.appendChild(ph);
         }
         document.getElementById('home-videos-count').innerText=`${items.length} mục`;
+    }
+    function triggerHomeThumbUpload(idx){document.getElementById(`home-thumb-input-${idx}`).click();}
+    async function handleHomeThumbUpload(src,evt){
+        const file=evt.target.files[0];if(!file)return;
+        const url=await uploadToDrive(file); // dùng chung bộ tải Cloudinary đã cấu hình ở mục Nhật Ký
+        const settings=getHomeVideoSettings();
+        settings[src]=settings[src]||{};
+        settings[src].poster=url;
+        saveHomeVideoSettings(settings);
+        renderHomeVideos();
+    }
+    function setHomeVideoQuality(src,quality){
+        // Ghi chú: trình duyệt không tự chuyển mã video, đây là nhãn chất lượng hiển thị cho người xem.
+        const settings=getHomeVideoSettings();
+        settings[src]=settings[src]||{};
+        settings[src].quality=quality;
+        saveHomeVideoSettings(settings);
     }
     function renderHomeAudio(){
         const grid=document.getElementById('home-audio-grid');
@@ -2434,7 +2460,7 @@
     }
 
     // ===== TÀI CHÍNH =====
-    let balanceBoy=0,balanceGirl=0;
+    let balanceBoy=750000,balanceGirl=500000;
     let BOY_BANK_LINK={shortName:"mbbank",accountNumber:"0987654321",accountName:"NGUYEN VAN A",customQrUrl:""};
     function saveBankConfiguration(){BOY_BANK_LINK.shortName=document.getElementById('cfg-bank-code').value.trim().toLowerCase();BOY_BANK_LINK.accountNumber=document.getElementById('cfg-bank-number').value.trim();BOY_BANK_LINK.accountName=document.getElementById('cfg-bank-name').value.trim().toUpperCase();alert("⚙️ Cập nhật QR hệ thống thành công!");}
     function updateWalletDisplay(){const tot=balanceBoy+balanceGirl;document.getElementById('wallet-boy-val').innerText=`${balanceBoy.toLocaleString('vi-VN')} đ`;document.getElementById('wallet-girl-val').innerText=`${balanceGirl.toLocaleString('vi-VN')} đ`;document.getElementById('wallet-balance-val').innerText=`${tot.toLocaleString('vi-VN')} đ`;}
@@ -2444,7 +2470,7 @@
 
     // ===== GỬI EMAIL =====
     function sendSingleSection(pageId,formTitle){
-        if(!CLOUD_SCRIPT_URL||CLOUD_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec")){alert("⚠️ Vui lòng cấu hình URL Google Apps Script trước khi gửi!");return;}
+        if(!CLOUD_SCRIPT_URL||CLOUD_SCRIPT_URL.includes("DÁN_URL_APPS_SCRIPT")){alert("⚠️ Vui lòng cấu hình URL Google Apps Script trước khi gửi!");return;}
         const targetPage=document.getElementById(pageId);
         const actionButton=targetPage.querySelector('.section-send-btn');
         const originalText=actionButton.innerText;
@@ -2474,8 +2500,8 @@
     //    Copy tên preset đó, dán vào CLOUDINARY_UPLOAD_PRESET bên dưới.
     // Lưu ý: gói miễn phí giới hạn ~100MB/video khi upload unsigned (đủ cho hầu hết video nhật ký thông thường,
     // nếu cần đúng 1GB/video cần nâng cấp gói trả phí của Cloudinary hoặc dùng giải pháp backend riêng).
-    const CLOUDINARY_CLOUD_NAME = "dbwadfqvh"; // <-- dán "Cloud name" của bạn vào đây
-    const CLOUDINARY_UPLOAD_PRESET = "diaryofus"; // <-- dán tên unsigned upload preset của bạn vào đây
+    const CLOUDINARY_CLOUD_NAME = ""; // <-- dán "Cloud name" của bạn vào đây
+    const CLOUDINARY_UPLOAD_PRESET = ""; // <-- dán tên unsigned upload preset của bạn vào đây
     async function uploadToDrive(file){
         if(!CLOUDINARY_CLOUD_NAME||!CLOUDINARY_UPLOAD_PRESET){
             // Chưa cấu hình Cloudinary → tạm lưu trong phiên trình duyệt để vẫn dùng thử được ngay.
@@ -2722,7 +2748,7 @@
         sendDiaryToGmail(title,content,diaryVideos);
     }
     function sendDiaryToGmail(title,contentHtml,videos){
-        if(!CLOUD_SCRIPT_URL||CLOUD_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycby747gHJ0YX8qQ1nlwfxUIr0EbpRtbGL-_EA2qcGIpqIRxPM36Sldh73Sze-DDKwOoj/exec")){
+        if(!CLOUD_SCRIPT_URL||CLOUD_SCRIPT_URL.includes("DÁN_URL_APPS_SCRIPT")){
             alert('💾 Đã lưu nhật ký trên trình duyệt này! (Chưa cấu hình Apps Script nên chưa gửi được qua Gmail)');
             return;
         }
